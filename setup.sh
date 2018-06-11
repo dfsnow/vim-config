@@ -12,7 +12,7 @@ if [[ "$OSTYPE" == "linux-gnu" ]]; then
 
     git clone https://github.com/vim/vim.git
     cd vim
-    make && make install
+    make && sudo make install
     cd ..
     rm -rf tmux vim
 
@@ -31,6 +31,7 @@ curl -fLo $script_home/.vim/autoload/plug.vim --create-dirs \
 
 git clone https://github.com/gpakosz/.tmux.git .tmux
 mv .tmux/.tmux.conf ./.tmux.conf
+tmux source-file ~/.tmux.conf
 rm -rf .tmux
 
 # Create symlinks to all files and folders
