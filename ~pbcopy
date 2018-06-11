@@ -2,20 +2,7 @@
 
 # Install tmux and vim
 if [[ "$OSTYPE" == "linux-gnu" ]]; then
-    sudo apt install -y libevent-dev libncurses5-dev autotools-dev autoconf automake pkg-config g++
-
-    git clone https://github.com/tmux/tmux.git
-	cd tmux
-	sh autogen.sh
-	./configure && make && sudo make install
-    cd ..
-
-    git clone https://github.com/vim/vim.git
-    cd vim
-    make && make install
-    cd ..
-    rm -rf tmux vim
-
+    sudo apt install libevent-dev libncurses7-dev autotools-dev autoconf automake pkg-config g++
 elif [[ "$OSTYPE" == "darwin"* ]]; then
     brew install vim
     brew install tmux
