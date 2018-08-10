@@ -1,7 +1,7 @@
 
 call plug#begin('~/.vim/vim-plug')
 
-Plug 'dracula/vim'
+Plug 'dracula/vim',{'as':'dracula'}
 Plug 'wincent/terminus'
 Plug 'easymotion/vim-easymotion'
 Plug 'airblade/vim-gitgutter'

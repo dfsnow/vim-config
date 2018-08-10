@@ -2,7 +2,8 @@
 
 # Install tmux and vim
 if [[ "$OSTYPE" == "linux-gnu" ]]; then
-    sudo apt install -y libevent-dev libncurses5-dev autotools-dev autoconf automake pkg-config g++
+    sudo apt install -y curl libevent-dev libncurses5-dev \
+        autotools-dev autoconf automake pkg-config g++
 
     git clone https://github.com/tmux/tmux.git
 	cd tmux
@@ -35,7 +36,7 @@ tmux source-file ~/.tmux.conf
 rm -rf .tmux
 
 # Create symlinks to all files and folders
-for i in .vimrc .dircolors .tmux.conf .vim .bashrc
+for i in .vimrc .dircolors .tmux.conf .vim .bashrc .inputrc
 do
     ln $params $script_home/$i $HOME/$i
 done
@@ -45,6 +46,6 @@ vim -E -c PlugInstall -c qall
 
 # Change to -i '' -e on Mac
 sed -i 's/g:dracula_colorterm = 1/g:dracula_colorterm = 0/g' \
-    $script_home/.vim/vim-plug/vim/colors/dracula.vim
+    $script_home/.vim/vim-plug/dracula/colors/dracula.vim
 
 
