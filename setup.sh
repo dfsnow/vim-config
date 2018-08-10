@@ -53,4 +53,6 @@ vim -E -c PlugInstall -c qall
 sed -i 's/g:dracula_colorterm = 1/g:dracula_colorterm = 0/g' \
     $script_home/.vim/vim-plug/dracula/colors/dracula.vim
 
+# Reset inputrc
+bind -f  ~/.inputrc
 
