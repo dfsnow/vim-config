@@ -2,13 +2,8 @@
 
 # Install tmux and vim
 if [[ "$OSTYPE" == "linux-gnu" ]]; then
-<<<<<<< HEAD
-    sudo apt install -y curl libevent-dev libncurses5-dev \
-        autotools-dev autoconf automake pkg-config g++
-=======
     sudo apt install -y libevent-dev libncurses5-dev make git \
         curl rename autotools-dev autoconf automake pkg-config g++
->>>>>>> 7d80653809eaa9c91a4b0b5ac04fbce3dae71c81
 
     git clone https://github.com/tmux/tmux.git
 	cd tmux
