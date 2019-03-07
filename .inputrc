@@ -13,7 +13,7 @@
 "\e[B": history-search-forward
 "\e[A": history-search-backward
 
-set completion-ignore-case On
+set completion-ignore-case on
 set expand-tilde on
 set convert-meta off
 set input-meta on

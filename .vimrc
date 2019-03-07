@@ -1,12 +1,13 @@
 
 call plug#begin('~/.vim/vim-plug')
 
+Plug 'vim-airline/vim-airline'
 Plug 'dracula/vim',{'as':'dracula'}
 Plug 'wincent/terminus'
 Plug 'easymotion/vim-easymotion'
 Plug 'airblade/vim-gitgutter'
-Plug 'vim-scripts/indentpython.vim'
 Plug 'ctrlpvim/ctrlp.vim'
+Plug 'liuchengxu/vim-which-key'
 
 call plug#end()
 
@@ -19,14 +20,13 @@ call plug#end()
 "    -> Colors and Fonts
 "    -> Files and backups
 "    -> Text, tab and indent related
-"    -> Visual mode related
 "    -> Moving around, tabs and buffers
 "    -> Status line
 "    -> Editing mappings
-"    -> vimgrep searching and cope displaying
 "    -> Spell checking
-"    -> Misc
 "    -> Helper functions
+"    -> Autocomplete settings
+"    -> Misc and plugins
 "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -51,6 +51,9 @@ let g:mapleader = ","
 
 " Fast saving
 nmap <leader>w :w!<cr>
+
+" Fast quitting and saving
+nmap <leader>q :wq<cr>
 
 " :W sudo saves the file 
 " (useful for handling the permission-denied error)
@@ -87,7 +90,7 @@ set ruler
 set cmdheight=2
 
 " A buffer becomes hidden when it is abandoned
-set hid
+set hidden
 
 " Configure backspace so it acts as it should act
 set backspace=eol,start,indent
@@ -113,6 +116,7 @@ set magic
 
 " Show matching brackets when text indicator is over them
 set showmatch 
+
 " How many tenths of a second to blink when matching brackets
 set mat=2
 
@@ -128,7 +132,13 @@ if has("gui_macvim")
 endif
 
 " Add a bit extra margin to the left
-set foldcolumn=1
+set foldcolumn=0
+
+" Show the line number 
+set number
+
+" Show a highlight on the cursorline
+set cursorline
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -137,16 +147,13 @@ set foldcolumn=1
 " Enable syntax highlighting
 syntax enable 
 
+" Set the default font
+set guifont=DejaVu_Sans_Mono:h14
+
 " Enable 256 colors palette in Gnome Terminal
 if $COLORTERM == 'gnome-terminal'
     set t_Co=256
 endif
-
-try
-    colorscheme dracula
-catch
-endtry
-
 set background=dark
 
 " Set extra options when running in GUI mode
@@ -195,33 +202,21 @@ set si "Smart indent
 set wrap "Wrap lines
 
 
-""""""""""""""""""""""""""""""
-" => Visual mode related
-""""""""""""""""""""""""""""""
-" Visual mode pressing * or # searches for the current selection
-" Super useful! From an idea by Michael Naumann
-vnoremap <silent> * :<C-u>call VisualSelection('', '')<CR>/<C-R>=@/<CR><CR>
-vnoremap <silent> # :<C-u>call VisualSelection('', '')<CR>?<C-R>=@/<CR><CR>
-
-
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Moving around, tabs, windows and buffers
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Map <Space> to / (search) and Ctrl-<Space> to ? (backwards search)
-map <space> /
-map <c-space> ?
+" Split new buffers to the right
+set splitright
+set splitbelow
 
-" Disable highlight when <leader><cr> is pressed
-map <silent> <leader><cr> :noh<cr>
-
-" Smart way to move between windows
-map <C-j> <C-W>j
-map <C-k> <C-W>k
-map <C-h> <C-W>h
-map <C-l> <C-W>l
+" Open new buffers
+map <leader>bb :new<cr>
+map <leader>bv :vnew<cr>
+map <leader>bn :enew<cr>
 
 " Close the current buffer
-map <leader>bd :Bclose<cr>:tabclose<cr>gT
+map <leader>bd :Bclose<cr>
+map <leader>bc :Bclose<cr>
 
 " Close all the buffers
 map <leader>ba :bufdo bd<cr>
@@ -244,9 +239,6 @@ au TabLeave * let g:lasttab = tabpagenr()
 " Opens a new tab with the current buffer's path
 " Super useful when editing files in the same directory
 map <leader>te :tabedit <c-r>=expand("%:p:h")<cr>/
-
-" Switch CWD to the directory of the open buffer
-map <leader>cd :cd %:p:h<cr>:pwd<cr>
 
 " Specify the behavior when switching between buffers 
 try
@@ -303,21 +295,6 @@ map <leader>s? z=
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Misc
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Remove the Windows ^M - when the encodings gets messed up
-noremap <Leader>m mmHmt:%s/<C-V><cr>//ge<cr>'tzt'm
-
-" Quickly open a buffer for scribble
-map <leader>q :e ~/buffer<cr>
-
-" Quickly open a markdown buffer for scribble
-map <leader>x :e ~/buffer.md<cr>
-
-" Toggle paste mode on and off
-map <leader>v :setlocal paste!<cr>
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Helper functions
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Returns true if paste mode is enabled
@@ -372,24 +349,29 @@ function! VisualSelection(direction, extra_filter) range
     let @" = l:saved_reg
 endfunction
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Extra Stuff and Plugin Config
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-" Setting hotkey for CtrlP
-nmap <leader>p g:ctrlp_map
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Autocomplete settings
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
+autocmd FileType css set omnifunc=csscomplete#CompleteCSS
+autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType python set omnifunc=pythoncomplete#Complete
 
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Misc and plugins
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Remove the Windows ^M - when the encodings gets messed up
+noremap <leader>m mmHmt:%s/<C-V><cr>//ge<cr>'tzt'm
+
+" Toggle paste mode on and off
+map <leader>v :setlocal paste!<cr>
+"
 " Better line joins
 if v:version > 703 || v:version == 703 && has('patch541')
   set formatoptions+=j
 endif
-
-" Searching files in Git, Git mappings
-nnoremap ? :GFiles<CR>
-nnoremap <c-N> :GitGutterNextHunk<CR>
-nnoremap <c-P> :GitGutterPrevHunk<CR>
-nnoremap <c-U> :GitGutterUndoHunk<CR>
-nmap <leader>g :GitGutterToggle<CR>
 
 " Remapping enter and backspace in Normal mode
 nnoremap <BS> {
@@ -400,11 +382,38 @@ nnoremap <expr> <CR> empty(&buftype) ? '}' : '<CR>'
 onoremap <expr> <CR> empty(&buftype) ? '}' : '<CR>'
 vnoremap <CR> }
 
-" Adding F key mapping for EasyMotion
-nmap F <Plug>(easymotion-prefix)s
+" Searching files in Git, Git mappings
+nnoremap <leader>n :GitGutterNextHunk<CR>
+nnoremap <leader>p :GitGutterPrevHunk<CR>
+nnoremap <leader>u :GitGutterUndoHunk<CR>
+nmap <leader>g :GitGutterToggle<CR>
 
-" Set fold column default 0
-set foldcolumn=0
+" Easymotion keymappings
+nmap <space> <Plug>(easymotion-prefix)s
+map  / <Plug>(easymotion-sn)
+omap / <Plug>(easymotion-tn)
+map  n <Plug>(easymotion-next)
+map  N <Plug>(easymotion-prev)
+let g:EasyMotion_smartcase = 1
 
-" Set the default font
-set guifont=DejaVu_Sans_Mono:h14
+" CtrlP keymappings
+nmap <leader><space> :CtrlP<CR>
+nmap <leader>/  :CtrlPMRU<CR>
+
+" Airline options
+let g:airline#extensions#tabline#enabled = 1
+set noshowmode
+
+" Dracula options
+let g:dracula_colorterm = 0
+let g:dracula_cursorline = 1
+
+try
+    colorscheme dracula
+    hi clear CursorLine
+catch
+endtry
+
+" Whichkey options
+nnoremap <silent> <leader><leader> :WhichKey ','<CR>
+

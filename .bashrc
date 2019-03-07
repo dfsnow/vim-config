@@ -115,7 +115,6 @@ fi
 # Set editor to vim and edit mode to vim
 export VISUAL=vim
 export EDITOR="$VISUAL"
-set editing-mode vi
 
 # Fix vim colors inside tmux
 if [ -n $TMUX ]; then
