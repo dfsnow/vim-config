@@ -120,3 +120,18 @@ export EDITOR="$VISUAL"
 if [ -n $TMUX ]; then
   alias vim="TERM=screen-256color vim"
 fi
+
+# Setting up various bash aliases
+alias c='clear'
+alias ll='ls -lah'
+alias ld='ls -lah | grep ^d'
+alias o='open .'
+
+# Alias for directory backtracking
+alias ..='cd ..'
+alias ...='cd ../../../'
+alias ....='cd ../../../../'
+alias .....='cd ../../../../'
+
+# More misc aliases
+alias untar='tar -zxvf '
