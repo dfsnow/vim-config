@@ -8,6 +8,7 @@ Plug 'easymotion/vim-easymotion'
 Plug 'airblade/vim-gitgutter'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'liuchengxu/vim-which-key'
+Plug 'scrooloose/nerdcommenter'
 
 call plug#end()
 
@@ -54,11 +55,12 @@ nmap <leader>w :w!<cr>
 
 " Fast quitting and saving
 nmap <leader>q :wq<cr>
+nmap <leader>Q :q!<cr>
 
 " :W sudo saves the file 
 " (useful for handling the permission-denied error)
 command W w !sudo tee % > /dev/null
-
+command Q :q!
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => VIM user interface
