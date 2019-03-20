@@ -364,9 +364,6 @@ autocmd FileType python set omnifunc=pythoncomplete#Complete
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Misc and plugins
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Remove the Windows ^M - when the encodings gets messed up
-noremap <leader>m mmHmt:%s/<C-V><cr>//ge<cr>'tzt'm
-
 " Toggle paste mode on and off
 map <leader>v :setlocal paste!<cr>
 "
