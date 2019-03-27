@@ -203,6 +203,10 @@ set ai "Auto indent
 set si "Smart indent
 set wrap "Wrap lines
 
+" Keep text selected on indent
+vnoremap < <gv
+vnoremap > >gv
+
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Moving around, tabs, windows and buffers
