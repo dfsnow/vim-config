@@ -396,12 +396,13 @@ onoremap <expr> <CR> empty(&buftype) ? '}' : '<CR>'
 vnoremap <CR> }
 
 " Searching files in Git, Git mappings
+let g:gitgutter_map_keys = 0
 nnoremap <leader>gn :GitGutterNextHunk<CR>
 nnoremap <leader>gp :GitGutterPrevHunk<CR>
 nnoremap <leader>gu :GitGutterUndoHunk<CR>
 nmap <leader>gg :GitGutterToggle<CR>
-nmap <leader>ga <Plug>GitGutterStageHunk
-nmap <Leader>gv <Plug>GitGutterPreviewHunk
+nmap <leader>ga :GitGutterStageHunk<CR>
+nmap <leader>gv :GitGutterPreviewHunk<CR>
 
 " Easymotion keymappings
 nmap <space> <Plug>(easymotion-prefix)s
