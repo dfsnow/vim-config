@@ -9,6 +9,7 @@ Plug 'airblade/vim-gitgutter'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'liuchengxu/vim-which-key'
 Plug 'scrooloose/nerdcommenter'
+Plug 'scrooloose/nerdtree'
 
 call plug#end()
 
@@ -54,7 +55,7 @@ let g:mapleader = ","
 nmap <leader>w :w!<cr>
 
 " Fast quitting and saving
-nmap <leader>q :wq<cr>
+nmap <leader>q :q<cr>
 nmap <leader>Q :q!<cr>
 
 " :W sudo saves the file 
@@ -215,6 +216,12 @@ vnoremap > >gv
 set splitright
 set splitbelow
 
+" Window movement with leader
+nnoremap <leader>j <C-W><C-J>
+nnoremap <leader>k <C-W><C-K>
+nnoremap <leader>l <C-W><C-L>
+nnoremap <leader>h <C-W><C-H>
+
 " Open new buffers
 map <leader>bb :new<cr>
 map <leader>bv :vnew<cr>
@@ -227,8 +234,11 @@ map <leader>bc :Bclose<cr>
 " Close all the buffers
 map <leader>ba :bufdo bd<cr>
 
-map <leader>l :bnext<cr>
-map <leader>h :bprevious<cr>
+" Switch between buffers in windows
+map <leader>ll :bnext<cr>
+map <leader>bl :bnext<cr>
+map <leader>bh :bprevious<cr>
+map <leader>hh :bprevious<cr>
 
 " Useful mappings for managing tabs
 map <leader>tn :tabnew<cr>
@@ -386,10 +396,12 @@ onoremap <expr> <CR> empty(&buftype) ? '}' : '<CR>'
 vnoremap <CR> }
 
 " Searching files in Git, Git mappings
-nnoremap <leader>n :GitGutterNextHunk<CR>
-nnoremap <leader>p :GitGutterPrevHunk<CR>
-nnoremap <leader>u :GitGutterUndoHunk<CR>
-nmap <leader>g :GitGutterToggle<CR>
+nnoremap <leader>gn :GitGutterNextHunk<CR>
+nnoremap <leader>gp :GitGutterPrevHunk<CR>
+nnoremap <leader>gu :GitGutterUndoHunk<CR>
+nmap <leader>gg :GitGutterToggle<CR>
+nmap <leader>ga <Plug>GitGutterStageHunk
+nmap <Leader>gv <Plug>GitGutterPreviewHunk
 
 " Easymotion keymappings
 nmap <space> <Plug>(easymotion-prefix)s
@@ -401,7 +413,7 @@ let g:EasyMotion_smartcase = 1
 
 " CtrlP keymappings
 nmap <leader><space> :CtrlP<CR>
-nmap <leader>/  :CtrlPMRU<CR>
+nmap <leader>/ :CtrlPMRU<CR>
 
 " Airline options
 let g:airline#extensions#tabline#enabled = 1
@@ -419,4 +431,11 @@ endtry
 
 " Whichkey options
 nnoremap <silent> <leader><leader> :WhichKey ','<CR>
+
+" Nerdtree options
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+autocmd vimenter * NERDTree | winc w 
+autocmd StdinReadPre * let s:std_in=1
+autocmd vimenter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+map <C-n> :NERDTreeToggle<CR>
 

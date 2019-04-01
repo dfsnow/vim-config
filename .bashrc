@@ -123,15 +123,20 @@ fi
 
 # Setting up various bash aliases
 alias c='clear'
+alias l='ls -lah'
 alias ll='ls -lah'
-alias ld='ls -lah | grep ^d'
+alias ld='du -h -d 1'
 alias o='open .'
+
+# Git related aliases
+alias gs='git status'
+alias ga='git add .'
 
 # Alias for directory backtracking
 alias ..='cd ..'
-alias ...='cd ../../../'
-alias ....='cd ../../../../'
-alias .....='cd ../../../../'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias .....='cd ../../../..'
 
 # More misc aliases
 alias untar='tar -zxvf '
