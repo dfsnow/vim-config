@@ -9,7 +9,6 @@ Plug 'airblade/vim-gitgutter'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'liuchengxu/vim-which-key'
 Plug 'scrooloose/nerdcommenter'
-Plug 'scrooloose/nerdtree'
 
 call plug#end()
 
@@ -432,11 +431,4 @@ endtry
 
 " Whichkey options
 nnoremap <silent> <leader><leader> :WhichKey ','<CR>
-
-" Nerdtree options
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-autocmd vimenter * NERDTree | winc w 
-autocmd StdinReadPre * let s:std_in=1
-autocmd vimenter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
-map <C-n> :NERDTreeToggle<CR>
 
