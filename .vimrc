@@ -9,6 +9,8 @@ Plug 'airblade/vim-gitgutter'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'liuchengxu/vim-which-key'
 Plug 'scrooloose/nerdcommenter'
+Plug 'tpope/vim-sleuth'
+Plug 'lifepillar/vim-mucomplete'
 
 call plug#end()
 
@@ -431,4 +433,11 @@ endtry
 
 " Whichkey options
 nnoremap <silent> <leader><leader> :WhichKey ','<CR>
+
+" mucomplete options
+set completeopt+=menuone
+set completeopt+=noselect
+set shortmess+=c   " Shut off completion messages
+set belloff+=ctrlg " If Vim beeps during completion
+let g:mucomplete#enable_auto_at_startup = 1
 
