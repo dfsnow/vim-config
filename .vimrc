@@ -62,6 +62,7 @@ nmap <leader>Q :q!<cr>
 " :W sudo saves the file 
 " (useful for handling the permission-denied error)
 command W w !sudo tee % > /dev/null
+command Q :q!
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => VIM user interface
@@ -356,7 +357,7 @@ autocmd FileType python set omnifunc=pythoncomplete#Complete
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Misc and plugins
+" => Misc and plugin settings
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Toggle paste mode on and off
 map <leader>v :setlocal paste!<cr>
