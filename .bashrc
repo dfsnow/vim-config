@@ -140,3 +140,5 @@ alias .....='cd ../../../..'
 
 # More misc aliases
 alias untar='tar -zxvf '
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash

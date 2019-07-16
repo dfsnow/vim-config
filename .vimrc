@@ -6,11 +6,11 @@ Plug 'dracula/vim',{'as':'dracula'}
 Plug 'wincent/terminus'
 Plug 'easymotion/vim-easymotion'
 Plug 'airblade/vim-gitgutter'
-Plug 'ctrlpvim/ctrlp.vim'
 Plug 'liuchengxu/vim-which-key'
 Plug 'scrooloose/nerdcommenter'
 Plug 'tpope/vim-sleuth'
-Plug 'lifepillar/vim-mucomplete'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
 
 call plug#end()
 
@@ -62,7 +62,6 @@ nmap <leader>Q :q!<cr>
 " :W sudo saves the file 
 " (useful for handling the permission-denied error)
 command W w !sudo tee % > /dev/null
-command Q :q!
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => VIM user interface
@@ -193,10 +192,6 @@ set expandtab
 " Be smart when using tabs ;)
 set smarttab
 
-" 1 tab == 4 spaces
-set shiftwidth=4
-set tabstop=4
-
 " Linebreak on 500 characters
 set lbr
 set tw=500
@@ -240,22 +235,6 @@ map <leader>ll :bnext<cr>
 map <leader>bl :bnext<cr>
 map <leader>bh :bprevious<cr>
 map <leader>hh :bprevious<cr>
-
-" Useful mappings for managing tabs
-map <leader>tn :tabnew<cr>
-map <leader>to :tabonly<cr>
-map <leader>tc :tabclose<cr>
-map <leader>tm :tabmove 
-map <leader>t<leader> :tabnext<cr>
-
-" Let 'tl' toggle between this and the last accessed tab
-let g:lasttab = 1
-nmap <Leader>tl :exe "tabn ".g:lasttab<CR>
-au TabLeave * let g:lasttab = tabpagenr()
-
-" Opens a new tab with the current buffer's path
-" Super useful when editing files in the same directory
-map <leader>te :tabedit <c-r>=expand("%:p:h")<cr>/
 
 " Specify the behavior when switching between buffers 
 try
@@ -413,10 +392,6 @@ map  n <Plug>(easymotion-next)
 map  N <Plug>(easymotion-prev)
 let g:EasyMotion_smartcase = 1
 
-" CtrlP keymappings
-nmap <leader><space> :CtrlP<CR>
-nmap <leader>/ :CtrlPMRU<CR>
-
 " Airline options
 let g:airline#extensions#tabline#enabled = 1
 set noshowmode
@@ -434,10 +409,9 @@ endtry
 " Whichkey options
 nnoremap <silent> <leader><leader> :WhichKey ','<CR>
 
-" mucomplete options
-set completeopt+=menuone
-set completeopt+=noselect
-set shortmess+=c   " Shut off completion messages
-set belloff+=ctrlg " If Vim beeps during completion
-let g:mucomplete#enable_auto_at_startup = 1
+" FZF options and commands
+nmap <Leader>ff :GFiles<CR>
+nmap <Leader>fb :Buffers<CR>
+nmap <Leader>fh :History<CR>
+nmap <Leader>fl :BLines<CR>
 
