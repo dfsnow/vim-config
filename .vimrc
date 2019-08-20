@@ -412,6 +412,7 @@ nnoremap <silent> <leader><leader> :WhichKey ','<CR>
 
 " FZF options and commands
 nmap <Leader>ff :GFiles<CR>
+nmap <Leader>fF :Files<CR>
 nmap <Leader>fb :Buffers<CR>
 nmap <Leader>fh :History<CR>
 nmap <Leader>fl :BLines<CR>
