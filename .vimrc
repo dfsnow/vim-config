@@ -28,7 +28,6 @@ call plug#end()
 "    -> Editing mappings
 "    -> Spell checking
 "    -> Helper functions
-"    -> Autocomplete settings
 "    -> Misc and plugins
 "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -158,6 +157,7 @@ set guifont=DejaVu_Sans_Mono:h14
 if $COLORTERM == 'gnome-terminal'
     set t_Co=256
 endif
+
 set background=dark
 
 " Set extra options when running in GUI mode
@@ -185,15 +185,10 @@ set noswapfile
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Text, tab and indent related
+" => text, tab and indent related
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Use spaces instead of tabs
-set expandtab
 
-" Be smart when using tabs ;)
-set smarttab
-
-" Linebreak on 500 characters
+" linebreak on 500 characters
 set lbr
 set tw=500
 
@@ -345,15 +340,6 @@ function! VisualSelection(direction, extra_filter) range
     let @/ = l:pattern
     let @" = l:saved_reg
 endfunction
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Autocomplete settings
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
-autocmd FileType css set omnifunc=csscomplete#CompleteCSS
-autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
-autocmd FileType python set omnifunc=pythoncomplete#Complete
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
