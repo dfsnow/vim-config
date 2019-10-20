@@ -6,11 +6,11 @@ Plug 'dracula/vim',{'as':'dracula'}
 Plug 'wincent/terminus'
 Plug 'easymotion/vim-easymotion'
 Plug 'airblade/vim-gitgutter'
-Plug 'liuchengxu/vim-which-key'
 Plug 'scrooloose/nerdcommenter'
 Plug 'tpope/vim-sleuth'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
+Plug 'ajh17/VimCompletesMe'
 
 call plug#end()
 
