@@ -393,9 +393,6 @@ try
 catch
 endtry
 
-" Whichkey options
-nnoremap <silent> <leader><leader> :WhichKey ','<CR>
-
 " FZF options and commands
 nmap <Leader>ff :GFiles<CR>
 nmap <Leader>fF :Files<CR>
