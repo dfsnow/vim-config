@@ -11,6 +11,7 @@ Plug 'tpope/vim-sleuth'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'ajh17/VimCompletesMe'
+Plug 'liuchengxu/vim-which-key'
 
 call plug#end()
 
@@ -399,4 +400,7 @@ nmap <Leader>fF :Files<CR>
 nmap <Leader>fb :Buffers<CR>
 nmap <Leader>fh :History<CR>
 nmap <Leader>fl :BLines<CR>
+
+" WhichKey options
+nnoremap <silent> <leader><leader> :WhichKeyVisual '<Space>'<CR>
 
