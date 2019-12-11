@@ -395,12 +395,12 @@ catch
 endtry
 
 " FZF options and commands
-nmap <Leader>ff :GFiles<CR>
-nmap <Leader>fF :Files<CR>
+nmap <Leader>fg :GFiles<CR>
+nmap <Leader>ff :Files<CR>
 nmap <Leader>fb :Buffers<CR>
 nmap <Leader>fh :History<CR>
 nmap <Leader>fl :BLines<CR>
 
 " WhichKey options
-nnoremap <silent> <leader><leader> :WhichKeyVisual '<Space>'<CR>
+nnoremap <silent> <leader><leader> :WhichKey '<Space>'<CR>
 
