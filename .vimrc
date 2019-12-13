@@ -402,5 +402,5 @@ nmap <Leader>fh :History<CR>
 nmap <Leader>fl :BLines<CR>
 
 " WhichKey options
-nnoremap <silent> <leader><leader> :WhichKey '<Space>'<CR>
+nnoremap <silent> <leader><leader> :<c-u>WhichKey  ','<CR>
 
