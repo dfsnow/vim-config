@@ -404,3 +404,5 @@ nmap <Leader>fl :BLines<CR>
 " WhichKey options
 nnoremap <silent> <leader><leader> :<c-u>WhichKey  ','<CR>
 
+" R indentation fix
+let r_indent_align_args = 0
