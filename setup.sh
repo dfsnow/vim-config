@@ -2,7 +2,7 @@
 
 # Install tmux and vim
 if [[ "$OSTYPE" == "linux-gnu" ]]; then
-    sudo apt install -y libevent-dev libncurses5-dev make git \
+    sudo apt install -y libevent-dev libncurses5-dev make git bash-completion \
         curl rename autotools-dev autoconf automake pkg-config g++
 
     git clone https://github.com/tmux/tmux.git
@@ -20,6 +20,8 @@ if [[ "$OSTYPE" == "linux-gnu" ]]; then
 elif [[ "$OSTYPE" == "darwin"* ]]; then
     brew install vim
     brew install tmux
+    brew install git
+    brew install bash-completion
 fi
 
 # Store script location for reference
@@ -43,4 +45,4 @@ vim -E -c PlugInstall -c qall
 # Reset inputrc and tmux
 bind -f  ~/.inputrc
 tmux source-file ~/.tmux.conf
-
+source ~/.bashrc
