@@ -64,6 +64,7 @@ nmap <leader>Q :q!<cr>
 command W w !sudo tee % > /dev/null
 command Q :q!
 
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => VIM user interface
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -144,6 +145,9 @@ set number
 " Show a highlight on the cursorline
 set cursorline
 
+" Show the 80 char column
+set colorcolumn=80
+
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Colors and Fonts
@@ -188,7 +192,6 @@ set noswapfile
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => text, tab and indent related
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
 " linebreak on 500 characters
 set lbr
 set tw=500
