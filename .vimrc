@@ -1,19 +1,29 @@
 
 call plug#begin('~/.vim/vim-plug')
 
-Plug 'vim-airline/vim-airline'
+" Lightline/UI 
+Plug 'itchyny/lightline.vim'
+Plug 'liuchengxu/vim-which-key'
 Plug 'dracula/vim',{'as':'dracula'}
-Plug 'wincent/terminus'
-Plug 'easymotion/vim-easymotion'
+
+" Git integration
+Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
-Plug 'scrooloose/nerdcommenter'
+Plug 'itchyny/vim-gitbranch'
+
+" Movement and formating
 Plug 'tpope/vim-sleuth'
+Plug 'tpope/vim-surround'
+Plug 'easymotion/vim-easymotion'
+Plug 'scrooloose/nerdcommenter'
+
+" Search and integration
+Plug 'wincent/terminus'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
-Plug 'ajh17/VimCompletesMe'
-Plug 'liuchengxu/vim-which-key'
 
 call plug#end()
+
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Table of Contents
@@ -383,19 +393,23 @@ map  n <Plug>(easymotion-next)
 map  N <Plug>(easymotion-prev)
 let g:EasyMotion_smartcase = 1
 
-" Airline options
-let g:airline#extensions#tabline#enabled = 1
-set noshowmode
 
 " Dracula options
 let g:dracula_colorterm = 0
-let g:dracula_cursorline = 1
+colorscheme dracula
 
-try
-    colorscheme dracula
-    hi clear CursorLine
-catch
-endtry
+" Lightline options
+set noshowmode
+let g:lightline = {
+  \ 'colorscheme': 'dracula',
+  \ 'active': {
+  \   'left': [ [ 'mode', 'paste' ],
+  \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
+  \ },
+  \ 'component_function': {
+  \   'gitbranch': 'fugitive#head'
+  \ },
+  \ }
 
 " FZF options and commands
 nmap <Leader>fg :GFiles<CR>
