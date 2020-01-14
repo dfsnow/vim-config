@@ -76,6 +76,7 @@ if [[ "$OSTYPE" == "linux-gnu" ]]; then
 	    . /usr/share/bash-completion/bash_completion
 	elif [ -f /etc/bash_completion ]; then
 	    . /etc/bash_completion
+	    echo "Bash installed"
 	fi
     fi
 
@@ -89,11 +90,6 @@ fi
 # alias definitions
 if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
-fi
-
-# alias definitions
-if [ -f ~/.git-completion.bash ]; then
-    . ~/.git-completion.bash
 fi
 
 # set editor to vim and edit mode to vim
