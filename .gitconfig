@@ -6,33 +6,32 @@
 	autocrlf = input
 
 [alias]
-	# logs
-	l = log --pretty=format:"%C(yellow)%h\\ %ad%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --date=short
-	lg= log --graph --oneline --decorate --all
-
 	a = add
-	ap = add -p
 	aa = add .
 	ac = !git add -A && git commit -m
-	c = commit --verbose
-	ca = commit -a --verbose
 	cm = commit -m
-	cam = commit -a -m
-	m = commit --amend --verbose
+	ca = commit --amend --verbose
 
 	d = diff
 	ds = diff --stat
 	dc = diff --cached
 
-	s = status -s
+	s = status -s -b
 	co = checkout
 	cob = checkout -b
 
 	pu = push
-	pl = "!git pull --rebase --prune && git submodule update --init --recursive"
+	pl = !git pull --rebase --prune && git submodule update --init --recursive
+
+	# logs
+	l = log --pretty=format:"%C(yellow)%h\\ %ad%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --date=short
+	lg= log --graph --oneline --decorate --all
 
 	# list branches sorted by last modified
 	b = "!git for-each-ref --sort='-authordate' --format='%(authordate)%09%(objectname:short)%09%(refname)' refs/heads | sed -e 's-refs/heads/--'"
 
 	# list aliases
 	la = "!git config -l | grep alias | cut -c 7-"
+
+	# how many commits have been made by different authors
+	who = shortlog -n -s --no-merges
