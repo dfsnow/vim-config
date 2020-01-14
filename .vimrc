@@ -387,12 +387,14 @@ let g:ale_linters_explicit = 1
 let g:ale_fixers = {
     \ '*'          : ['remove_trailing_lines', 'trim_whitespace']           ,
     \ 'python'     : ['isort', 'black']                                     ,
+    \ 'rmd'        : ['styler']                                             ,
     \ 'r'          : ['styler']                                             ,
     \ }
 
 let g:ale_linters = {
     \ 'python'     : ['flake8']                                             ,
     \ 'r'          : ['lintr']                                              ,
+    \ 'rmd'        : ['lintr']                                              ,
     \ 'sh'         : ['shellcheck']                                         ,
     \ }
 
