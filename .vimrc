@@ -377,19 +377,18 @@ vnoremap <CR> }
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Plugin Settings 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" NERDcommenter
+let g:NERDSpaceDelims = 1
+let g:NERDCompactSexyComs = 1
 
+" ALE
 let g:ale_fixers = {
-    \ '*'          : [ 'remove_trailing_lines', 'trim_whitespace' ],
-    \ 'javascript' : ['prettier'],
+    \ '*'          : ['remove_trailing_lines', 'trim_whitespace'],
     \ 'css'        : ['prettier'],
-    \ 'r'          : ['prettier'],
-    \ 'sh'         : ['shfmt'],
+    \ 'javascript' : ['prettier'],
+    \ 'python'     : ['isort', 'black'],
+    \ 'r'          : ['styler'],
     \ }
-
-
-let g:ale_linters = {
-\   'sh' : ['shellcheck'],
-\}
 
 " GitGutter 
 let g:gitgutter_map_keys = 0
@@ -399,6 +398,7 @@ nnoremap <c-U> :GitGutterUndoHunk<CR>
 nmap <leader>gg :GitGutterToggle<CR>
 nmap <leader>ga :GitGutterStageHunk<CR>
 nmap <leader>gv :GitGutterPreviewHunk<CR>
+nmap <leader>gu :GitGutterUndoHunk<CR>
 
 " Git Fugitive  
 nnoremap <Leader>gs :Gstatus<CR>
@@ -530,6 +530,8 @@ let g:which_key_map.g = {
     \ 'd' : ['Gdiff'                , 'View diff']                         ,
     \ 's' : ['Gstatus'              , 'View status']                       ,
     \ 'v' : ['GitGutterPreviewHunk' , 'Preview hunk']                      ,
+    \ 'u' : ['GitGutterUndoHunk'    , 'Undo hunk']                         ,
+    \ 'p' : ['Gpush'                , 'Push commits']                      ,
     \ }
 
 " WhichKey spellcheck

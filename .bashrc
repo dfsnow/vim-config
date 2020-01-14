@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # MAIN BASH CONFIG 
 
 # If not running interactively, don't do anything
