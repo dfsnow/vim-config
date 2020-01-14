@@ -35,12 +35,11 @@ script_home="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 params="-sf"
 
 # Install vim-plug
-curl -fLo $script_home/.vim/autoload/plug.vim --create-dirs \
+curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
 # Create symlinks to all files and folders
-for i in .vimrc .dircolors .vim .bashrc \
-    .inputrc .tmux.conf .bash_aliases .gitconfig
+for i in .vimrc .dircolors .bashrc .inputrc .tmux.conf .bash_aliases .gitconfig
 do
     if [ -f $HOME/$i ]; then rm $HOME/$i; fi
     ln $params $script_home/$i $HOME/$i
