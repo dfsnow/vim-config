@@ -399,9 +399,6 @@ let g:ale_linters = {
     \ }
 
 nnoremap <leader>at :ALEToggle<CR>
-nnoremap <leader>ad :ALEGoToDefinition<CR>
-nnoremap <leader>ar :ALEFindReferences<CR>
-nnoremap <leader>ah :ALEHover<CR>
 nnoremap <leader>af :ALEFix<CR>
 nnoremap <leader>as :ALEFixSuggest<CR>
 nnoremap <leader>ai :ALEInfo<CR>
@@ -495,16 +492,13 @@ let g:which_key_map = {
     \ 'hh' : ['bprevious' , 'Previous buffer']         ,
     \ }
 
-" WhichKey buffer
+" WhichKey ale
 let g:which_key_map.a = {
     \ 'name' : '+ale' ,
-    \ 'd' : ['ALEGoToDefinition'               , 'Jump to word definition'] ,
-    \ 'h' : ['ALEHover'                        , 'View word information']   ,
-    \ 'i' : ['ALEInfo'                         , 'View runtime info']       ,
-    \ 'r' : ['ALEFindReferences'               , 'Find reference']          ,
-    \ 's' : ['ALEFixSuggest'                   , 'Suggest fixers']          ,
-    \ 't' : ['ALEToggle'                       , 'Toggle linting']          ,
-    \ 'f' : ['ALEFix'                          , 'Run fixers']              ,
+    \ 's' : ['ALEFixSuggest', 'Suggest fixers']        ,
+    \ 'i' : ['ALEInfo'    , 'View runtime info']       ,
+    \ 't' : ['ALEToggle'  , 'Toggle linting']          ,
+    \ 'f' : ['ALEFix'     , 'Run fixers']              ,
     \ }
 
 " WhichKey buffer
