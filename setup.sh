@@ -6,13 +6,13 @@ echo
 
 # Install tmux and neovim
 if [[ "$OSTYPE" == "linux-gnu" ]]; then
-    # Install basic utilities
-    sudo apt install -y \
-	curl rename git bash-completion libssl-dev
-
     # Prompt to install from source, otherwise from repo
     read -p "Install tmux/neovim from source? [yn] " -n 1 -r source_answer
     echo
+
+    # Install basic utilities
+    sudo apt install -y \
+	curl rename git bash-completion libssl-dev
 
     if [[ "$source_answer" =~ ^[Yy]$ ]]; then
 	sudo apt install -y \
@@ -40,9 +40,12 @@ if [[ "$OSTYPE" == "linux-gnu" ]]; then
 
     # Install linters if prompt was yes
     if [[ "$lint_answer" =~ ^[Yy]$ ]]; then
-	sudo apt install -y shellcheck python3-pip r-base libxml2-dev
+	sudo apt install -y \
+	    shellcheck python3-pip r-base libxml2-dev libcurl4-openssl-dev
 	pip3 install black isort flake8
-	sudo Rscript -e 'install.packages(c("styler", "lintr"), repos="https://cloud.r-project.org/")'
+	export R_INSTALL_STAGED=FALSE
+	sudo Rscript -e \
+	    'install.packages(c("styler", "lintr"), repos="https://cloud.r-project.org/")'
     fi
 
 elif [[ "$OSTYPE" == "darwin"* ]]; then
@@ -52,7 +55,8 @@ elif [[ "$OSTYPE" == "darwin"* ]]; then
     if [[ "$lint_answer" =~ ^[Yy]$ ]]; then
 	brew install shellcheck python3 r
 	pip3 install black isort flake8
-	Rscript -e 'install.packages(c("styler", "lintr"), repos="https://cloud.r-project.org/")'
+	Rscript -e \
+	    'install.packages(c("styler", "lintr"), repos="https://cloud.r-project.org/")'
     fi
 fi
 

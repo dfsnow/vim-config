@@ -14,7 +14,6 @@
 
 	d = diff
 	ds = diff --stat
-	dc = diff --cached
 
 	s = status -s -b
 	co = checkout
@@ -23,12 +22,20 @@
 	pu = push
 	pl = !git pull --rebase --prune && git submodule update --init --recursive
 
+	f = fetch --prune --verbose
+	cl = clone
+
+	# undo previous commit
+	r = checkout HEAD^1 --
+	rh = reset --hard HEAD^1
+
 	# logs
 	l = log --pretty=format:"%C(yellow)%h\\ %ad%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --date=short
 	lg= log --graph --oneline --decorate --all
 
 	# list branches sorted by last modified
-	b = "!git for-each-ref --sort='-authordate' --format='%(authordate)%09%(objectname:short)%09%(refname)' refs/heads | sed -e 's-refs/heads/--'"
+	bl = "!git for-each-ref --sort='-authordate' --format='%(authordate)%09%(objectname:short)%09%(refname)' refs/heads | sed -e 's-refs/heads/--'"
+	b = branch
 
 	# list aliases
 	la = "!git config -l | grep alias | cut -c 7-"
