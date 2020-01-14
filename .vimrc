@@ -405,15 +405,15 @@ colorscheme dracula
 set laststatus=2
 set noshowmode
 let g:lightline = {
-  \ 'colorscheme': 'dracula',
-  \ 'active': {
-  \   'left': [ [ 'mode', 'paste' ],
-  \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
-  \ },
-  \ 'component_function': {
-  \   'gitbranch': 'fugitive#head'
-  \ },
-  \ }
+    \ 'colorscheme': 'dracula',
+    \ 'active': {
+    \   'left': [ [ 'mode', 'paste' ],
+    \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
+    \ },
+    \ 'component_function': {
+    \   'gitbranch': 'fugitive#head'
+    \ },
+    \ }
 
 " FZF 
 nmap <Leader>fg :GFiles<CR>
@@ -424,4 +424,82 @@ nmap <Leader>fl :BLines<CR>
 
 " WhichKey 
 nnoremap <silent> <leader><leader> :<c-u>WhichKey  ','<CR>
+call which_key#register(',', "g:which_key_map")
 
+" WhichKey defaults
+let g:which_key_map = {
+    \ 'v' : [':setlocal paste!' , 'Paste mode']        ,
+    \ '?' : ['GFiles'     , 'Search git files']        ,
+    \ 'h' : ['<C-W><C-H>' , 'Window left']             ,
+    \ 'j' : ['<C-W><C-J>' , 'Window down']             ,
+    \ 'k' : ['<C-W><C-K>' , 'Window up']               ,
+    \ 'l' : ['<C-W><C-L>' , 'Window right']            ,
+    \ 'Q' : ['q!'         , 'which_key_ignore']        ,
+    \ 'w' : ['w!'         , 'which_key_ignore']        ,
+    \ 'q' : ['q'          , 'which_key_ignore']        ,
+    \ 'll' : ['bnext'     , 'Next buffer']        ,
+    \ 'hh' : ['bprevious' , 'Previous buffer']        ,
+    \ }
+
+" WhichKey buffer
+let g:which_key_map.b = {
+    \ 'name' : '+buffer' ,
+    \ 'b' : ['new'        , 'New buffer (horizontal)'] ,
+    \ 'v' : ['vnew'       , 'New buffer (vertical)']   ,
+    \ 'n' : ['enew'       , 'New buffer (no split)']   ,
+    \ 'd' : ['Bclose'     , 'Close buffer']            ,
+    \ 'c' : ['Bclose'     , 'Close buffer']            ,
+    \ 'l' : ['bnext'      , 'Next buffer']             ,
+    \ 'h' : ['bprevious'  , 'Previous buffer']         ,
+    \ 'a' : ['bufdo bd'   , 'Close all buffers']       ,
+    \ }
+
+" WhichKey nerdcommenter
+let g:which_key_map.c = {
+    \ 'name' : '+comment' ,
+    \ ' ' : ['<plug>NERDCommenterToggle'    , 'Toggle comment']          ,
+    \ '$' : ['<plug>NERDCommenterToEOL'       , 'Comment to EOL']          ,
+    \ 'c' : ['<plug>NERDCommenterComment'    , 'Comment selection']          ,
+    \ 'u' : ['<plug>NERDCommenterUncomment'    , 'Uncomment selection']          ,
+    \ 'm' : ['<plug>NERDCommenterMinimal'    , 'Minimal comment']          ,
+    \ 's' : ['<plug>NERDCommenterSexy'    , 'Sexy comment']          ,
+    \ 'l' : ['<plug>NERDCommenterAlignLeft'    , 'Left side comment']          ,
+    \ 'n' : ['<plug>NERDCommenterNested'    , 'Nested comment']          ,
+    \ 'i' : ['<plug>NERDCommenterInvert'    , 'Invert comment']          ,
+    \ 'A' : ['<plug>NERDCommenterAppend'    , 'which_key_ignore']          ,
+    \ 'y' : ['<plug>NERDCommenterYank'    , 'which_key_ignore']          ,
+    \ 'a' : ['<plug>NERDCommenterAltDelims'    , 'which_key_ignore']          ,
+    \ 'b' : ['<plug>NERDCommenterAlignBoth'    , 'which_key_ignore']          ,
+    \ }
+
+" WhichKey fzf
+let g:which_key_map.f = {
+    \ 'name' : '+fzf' ,
+    \ 'g' : ['GFiles'     , 'Search git files']        ,
+    \ 'f' : ['Files'      , 'Search all files']        ,
+    \ 'b' : ['Buffers'    , 'Search buffers']          ,
+    \ 'l' : ['BLines'     , 'Search lines']            ,
+    \ 'h' : ['History'    , 'Search history']          ,
+    \ }
+
+" WhichKey git
+let g:which_key_map.g = {
+    \ 'name' : '+git' ,
+    \ 'l' : [":exe ':!cd ' . expand('%:p:h') . '; git l'", 'Preview hunk'] ,
+    \ 'g' : ['GitGutterToggle'      , 'Toggle GitGutter']                  ,
+    \ 'b' : ['Gblame'               , 'View blame']                        ,
+    \ 'a' : ['GitGutterStageHunk'   , 'Stage hunk']                        ,
+    \ 'd' : ['Gdiff'                , 'View diff']                         ,
+    \ 's' : ['Gstatus'              , 'View status']                       ,
+    \ 'v' : ['GitGutterPreviewHunk' , 'Preview hunk']                      ,
+    \ }
+
+" WhichKey spellcheck
+let g:which_key_map.s = {
+    \ 'name' : '+spell' ,
+    \ 's' : [':setlocal spell!' , 'Toggle spell check'],
+    \ 'n' : [']s'         , 'Next misspelling']        ,
+    \ 'p' : ['[s'         , 'Previous misspelling']    ,
+    \ 'a' : ['zg'         , 'Add to dictionary']       ,
+    \ '?' : ['z='         , 'Search in dictionary']    ,
+    \ }
