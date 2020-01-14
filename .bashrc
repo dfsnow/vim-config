@@ -91,11 +91,16 @@ if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
 
-# Set editor to vim and edit mode to vim
+# alias definitions
+if [ -f ~/.git-completion.bash ]; then
+    . ~/.git-completion.bash
+fi
+
+# set editor to vim and edit mode to vim
 export VISUAL=nvim
 export EDITOR="$VISUAL"
 
-# Fix nvim colors inside tmux
+# fix nvim colors inside tmux
 if [ -n $TMUX ]; then
     alias nvim="TERM=screen-256color nvim"
 fi
