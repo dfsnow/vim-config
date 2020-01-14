@@ -47,9 +47,8 @@ do
 done
 
 # Neovim init file setup
-init_file="~/.config/nvim/init.vim"
-mkdir -p $HOME/.config/nvim/$init_file
-cp $script_home/init.vim $HOME/.config/nvim/$init_file
+mkdir -p $HOME/.config/nvim/
+cp $script_home/init.vim $HOME/.config/nvim/init.vim
 
 # Install plugins for vim
 nvim -E -c PlugInstall -c qall
