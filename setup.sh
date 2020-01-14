@@ -8,7 +8,7 @@ echo
 if [[ "$OSTYPE" == "linux-gnu" ]]; then
     # Install basic utilities
     sudo apt install -y \
-	curl rename git bash-completion
+	curl rename git bash-completion libssl-dev
 
     # Prompt to install from source, otherwise from repo
     read -p "Install tmux/neovim from source? [yn] " -n 1 -r source_answer
@@ -40,9 +40,9 @@ if [[ "$OSTYPE" == "linux-gnu" ]]; then
 
     # Install linters if prompt was yes
     if [[ "$lint_answer" =~ ^[Yy]$ ]]; then
-	sudo apt install -y shellcheck python3-pip r-base
+	sudo apt install -y shellcheck python3-pip r-base libxml2-dev
 	pip3 install black isort flake8
-	Rscript -e 'install.packages(c("styler", "lintr"), repos="https://cloud.r-project.org/")'
+	sudo Rscript -e 'install.packages(c("styler", "lintr"), repos="https://cloud.r-project.org/")'
     fi
 
 elif [[ "$OSTYPE" == "darwin"* ]]; then
