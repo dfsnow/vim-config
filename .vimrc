@@ -384,7 +384,6 @@ let g:NERDCompactSexyComs = 1
 " ALE
 let g:ale_fix_on_save = 1
 let g:ale_linters_explicit = 1
-
 let g:ale_fixers = {
     \ '*'          : ['remove_trailing_lines', 'trim_whitespace']           ,
     \ 'python'     : ['isort', 'black']                                     ,
@@ -396,6 +395,14 @@ let g:ale_linters = {
     \ 'r'          : ['lintr']                                              ,
     \ 'sh'         : ['shellcheck']                                         ,
     \ }
+
+nnoremap <leader>at :ALEToggle<CR>
+nnoremap <leader>ad :ALEGoToDefinition<CR>
+nnoremap <leader>ar :ALEFindReferences<CR>
+nnoremap <leader>ah :ALEHover<CR>
+nnoremap <leader>af :ALEFix<CR>
+nnoremap <leader>as :ALEFixSuggest<CR>
+nnoremap <leader>ai :ALEInfo<CR>
 
 " GitGutter
 let g:gitgutter_map_keys = 0
@@ -484,6 +491,18 @@ let g:which_key_map = {
     \ 'q' : ['q'          , 'which_key_ignore']        ,
     \ 'll' : ['bnext'     , 'Next buffer']             ,
     \ 'hh' : ['bprevious' , 'Previous buffer']         ,
+    \ }
+
+" WhichKey buffer
+let g:which_key_map.a = {
+    \ 'name' : '+ale' ,
+    \ 'd' : ['ALEGoToDefinition'               , 'Jump to word definition'] ,
+    \ 'h' : ['ALEHover'                        , 'View word information']   ,
+    \ 'i' : ['ALEInfo'                         , 'View runtime info']       ,
+    \ 'r' : ['ALEFindReferences'               , 'Find reference']          ,
+    \ 's' : ['ALEFixSuggest'                   , 'Suggest fixers']          ,
+    \ 't' : ['ALEToggle'                       , 'Toggle linting']          ,
+    \ 'f' : ['ALEFix'                          , 'Run fixers']              ,
     \ }
 
 " WhichKey buffer
