@@ -70,17 +70,20 @@ if [ -x /usr/bin/dircolors ]; then
 fi
 
 # enable programmable completion features (linux)
-if ! shopt -oq posix; then
-    if [ -f /usr/share/bash-completion/bash_completion.sh ]; then
-	. /usr/share/bash-completion/bash_completion.sh
-    elif [ -f /etc/bash_completion.sh ]; then
-	. /etc/bash_completion.sh
+if [[ "$OSTYPE" == "linux-gnu" ]]; then
+    if ! shopt -oq posix; then
+	if [ -f /usr/share/bash-completion/bash_completion ]; then
+	    . /usr/share/bash-completion/bash_completion
+	elif [ -f /etc/bash_completion ]; then
+	    . /etc/bash_completion
+	fi
     fi
-fi
 
 # enable programmable completion features (mac)
-if [ -f $(brew --prefix)/etc/profile.d/bash_completion.sh ]; then
-    . $(brew --prefix)/etc/profile.d/bash_completion.sh
+elif [[ "$OSTYPE" == "darwin"* ]]; then
+    if [ -f $(brew --prefix)/etc/profile.d/bash_completion.sh ]; then
+	. $(brew --prefix)/etc/profile.d/bash_completion.sh
+    fi
 fi
 
 # alias definitions
