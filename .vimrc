@@ -1,7 +1,7 @@
 
 call plug#begin('~/.vim/vim-plug')
 
-" UI and colors 
+" UI and colors
 Plug 'itchyny/lightline.vim'
 Plug 'maximbaz/lightline-ale'
 Plug 'liuchengxu/vim-which-key'
@@ -44,7 +44,7 @@ call plug#end()
 "    -> Spell Checkings
 "    -> Helper Functions
 "    -> Miscellaneous
-"    -> Plugins 
+"    -> Plugins
 "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -74,7 +74,7 @@ nmap <leader>w :w!<cr>
 nmap <leader>q :q<cr>
 nmap <leader>Q :q!<cr>
 
-" :W sudo saves the file 
+" :W sudo saves the file
 " (useful for handling the permission-denied error)
 command W w !sudo tee % > /dev/null
 command Q :q!
@@ -87,7 +87,7 @@ command Q :q!
 set so=7
 
 " Avoid garbled characters in Chinese language windows OS
-let $LANG='en' 
+let $LANG='en'
 set langmenu=en
 source $VIMRUNTIME/delmenu.vim
 source $VIMRUNTIME/menu.vim
@@ -119,23 +119,23 @@ set whichwrap+=<,>,h,l
 " Ignore case when searching
 set ignorecase
 
-" When searching try to be smart about cases 
+" When searching try to be smart about cases
 set smartcase
 
 " Highlight search results
 set hlsearch
 
 " Makes search act like search in modern browsers
-set incsearch 
+set incsearch
 
 " Don't redraw while executing macros (good performance config)
-set lazyredraw 
+set lazyredraw
 
 " For regular expressions turn magic on
 set magic
 
 " Show matching brackets when text indicator is over them
-set showmatch 
+set showmatch
 
 " How many tenths of a second to blink when matching brackets
 set mat=2
@@ -154,7 +154,7 @@ endif
 " Add a bit extra margin to the left
 set foldcolumn=0
 
-" Show the line number 
+" Show the line number
 set number
 
 " Show a highlight on the cursorline
@@ -168,7 +168,7 @@ set colorcolumn=80
 " => Colors and Fonts
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Enable syntax highlighting
-syntax enable 
+syntax enable
 
 " Set the default font
 set guifont=DejaVu_Sans_Mono:h14
@@ -251,7 +251,7 @@ map <leader>bl :bnext<cr>
 map <leader>bh :bprevious<cr>
 map <leader>hh :bprevious<cr>
 
-" Specify the behavior when switching between buffers 
+" Specify the behavior when switching between buffers
 try
   set switchbuf=useopen,usetab,newtab
   set stal=2
@@ -331,7 +331,7 @@ function! CmdLine(str)
     exe "menu Foo.Bar :" . a:str
     emenu Foo.Bar
     unmenu Foo
-endfunction 
+endfunction
 
 function! VisualSelection(direction, extra_filter) range
     let l:saved_reg = @"
@@ -352,7 +352,7 @@ endfunction
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Miscellaneous 
+" => Miscellaneous
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Toggle paste mode on and off
 map <leader>v :setlocal paste!<cr>
@@ -375,22 +375,28 @@ vnoremap <CR> }
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Plugin Settings 
+" => Plugin Settings
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " NERDcommenter
 let g:NERDSpaceDelims = 1
 let g:NERDCompactSexyComs = 1
 
 " ALE
+let g:ale_fix_on_save = 1
+let g:ale_linters_explicit = 1
 let g:ale_fixers = {
     \ '*'          : ['remove_trailing_lines', 'trim_whitespace'],
-    \ 'css'        : ['prettier'],
-    \ 'javascript' : ['prettier'],
     \ 'python'     : ['isort', 'black'],
     \ 'r'          : ['styler'],
     \ }
 
-" GitGutter 
+let g:ale_linters = {
+    \ 'python'     : ['flake8'],
+    \ 'r'          : ['lintr'],
+    \ 'sh'         : ['shellcheck'],
+    \ }
+
+" GitGutter
 let g:gitgutter_map_keys = 0
 nnoremap <c-N> :GitGutterNextHunk<CR>
 nnoremap <c-P> :GitGutterPrevHunk<CR>
@@ -400,7 +406,7 @@ nmap <leader>ga :GitGutterStageHunk<CR>
 nmap <leader>gv :GitGutterPreviewHunk<CR>
 nmap <leader>gu :GitGutterUndoHunk<CR>
 
-" Git Fugitive  
+" Git Fugitive
 nnoremap <Leader>gs :Gstatus<CR>
 nnoremap <Leader>gd :Gdiff<CR>
 nnoremap <Leader>gb :Gblame<CR>
@@ -408,7 +414,7 @@ nnoremap <Leader>gl :exe ':!cd ' . expand('%:p:h') . '; git l'<CR>
 nnoremap <Leader>gp :Git push<CR>
 nnoremap ? :GFiles<CR>
 
-" Easymotion 
+" Easymotion
 nmap <space> <Plug>(easymotion-prefix)s
 map  / <Plug>(easymotion-sn)
 omap / <Plug>(easymotion-tn)
@@ -416,11 +422,11 @@ map  n <Plug>(easymotion-next)
 map  N <Plug>(easymotion-prev)
 let g:EasyMotion_smartcase = 1
 
-" Dracula 
+" Dracula
 let g:dracula_colorterm = 0
 colorscheme dracula
 
-" Lightline 
+" Lightline
 set laststatus=2
 set noshowmode
 let g:lightline = {
@@ -443,24 +449,24 @@ let g:lightline.component_type = {
     \ }
 
 let g:lightline.active = {
-    \ 'right' : [ 
+    \ 'right' : [
     \   ['linter_checking', 'linter_errors', 'linter_warnings', 'linter_ok'],
     \   ['percent', 'line']                                                 ,
     \   ['fileformat', 'fileencoding', 'filetype'] ]                        ,
-    \ 'left' : [ 
+    \ 'left' : [
     \   ['mode', 'paste']                                                   ,
     \   ['gitbranch']                                                       ,
     \   ['readonly', 'filename', 'modified'] ]
     \ }
 
-" FZF 
+" FZF
 nmap <Leader>fg :GFiles<CR>
 nmap <Leader>ff :Files<CR>
 nmap <Leader>fb :Buffers<CR>
 nmap <Leader>fh :History<CR>
 nmap <Leader>fl :BLines<CR>
 
-" WhichKey 
+" WhichKey
 nnoremap <silent> <leader><leader> :<c-u>WhichKey  ','<CR>
 call which_key#register(',', "g:which_key_map")
 

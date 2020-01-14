@@ -41,18 +41,19 @@ if [[ "$OSTYPE" == "linux-gnu" ]]; then
     # Install linters if prompt was yes
     if [[ "$lint_answer" =~ ^[Yy]$ ]]; then
 	sudo apt install -y \
-	    shellcheck
+	    shellcheck python3-pip r-base
+	pip3 install black isort flake8
+	Rscript -e 'install.packages("styler", "lintr", repos="https://cran.rstudio.com")'
     fi
 
 elif [[ "$OSTYPE" == "darwin"* ]]; then
-    brew install neovim
-    brew install tmux
-    brew install git
-    brew install bash-completion
+    brew install neovim tmux git bash-completion
 
     # Install linters if prompt was yes
     if [[ "$lint_answer" =~ ^[Yy]$ ]]; then
-	brew install shellcheck
+	brew install shellcheck python3 r
+	pip3 install black isort flake8
+	Rscript -e 'install.packages("styler", "lintr", repos="https://cran.rstudio.com")'
     fi
 fi
 
