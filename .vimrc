@@ -1,8 +1,9 @@
 
 call plug#begin('~/.vim/vim-plug')
 
-" Lightline/UI 
+" UI and colors 
 Plug 'itchyny/lightline.vim'
+Plug 'maximbaz/lightline-ale'
 Plug 'liuchengxu/vim-which-key'
 Plug 'dracula/vim',{'as':'dracula'}
 
@@ -21,6 +22,10 @@ Plug 'wincent/terminus'
 Plug 'scrooloose/nerdcommenter'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
+
+" Linting and completion
+Plug 'dense-analysis/ale'
+
 
 call plug#end()
 
@@ -372,6 +377,20 @@ vnoremap <CR> }
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Plugin Settings 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+let g:ale_fixers = {
+    \ '*'          : [ 'remove_trailing_lines', 'trim_whitespace' ],
+    \ 'javascript' : ['prettier'],
+    \ 'css'        : ['prettier'],
+    \ 'r'          : ['prettier'],
+    \ 'sh'         : ['shfmt'],
+    \ }
+
+
+let g:ale_linters = {
+\   'sh' : ['shellcheck'],
+\}
+
 " GitGutter 
 let g:gitgutter_map_keys = 0
 nnoremap <c-N> :GitGutterNextHunk<CR>
@@ -405,14 +424,33 @@ colorscheme dracula
 set laststatus=2
 set noshowmode
 let g:lightline = {
-    \ 'colorscheme': 'dracula',
-    \ 'active': {
-    \   'left': [ [ 'mode', 'paste' ],
-    \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
-    \ },
-    \ 'component_function': {
-    \   'gitbranch': 'fugitive#head'
-    \ },
+    \ 'colorscheme'         : 'dracula',
+    \ 'component_function'  : {'gitbranch': 'fugitive#head'}  ,
+    \ }
+
+let g:lightline.component_expand = {
+    \ 'linter_checking'     : 'lightline#ale#checking' ,
+    \ 'linter_warnings'     : 'lightline#ale#warnings' ,
+    \ 'linter_errors'       : 'lightline#ale#errors'   ,
+    \ 'linter_ok'           : 'lightline#ale#ok'       ,
+    \ }
+
+let g:lightline.component_type = {
+    \ 'linter_checking'     : 'left'                   ,
+    \ 'linter_warnings'     : 'warning'                ,
+    \ 'linter_errors'       : 'error'                  ,
+    \ 'linter_ok'           : 'left'                   ,
+    \ }
+
+let g:lightline.active = {
+    \ 'right' : [ 
+    \   ['linter_checking', 'linter_errors', 'linter_warnings', 'linter_ok'],
+    \   ['percent', 'line']                                                 ,
+    \   ['fileformat', 'fileencoding', 'filetype'] ]                        ,
+    \ 'left' : [ 
+    \   ['mode', 'paste']                                                   ,
+    \   ['gitbranch']                                                       ,
+    \   ['readonly', 'filename', 'modified'] ]
     \ }
 
 " FZF 
@@ -437,8 +475,8 @@ let g:which_key_map = {
     \ 'Q' : ['q!'         , 'which_key_ignore']        ,
     \ 'w' : ['w!'         , 'which_key_ignore']        ,
     \ 'q' : ['q'          , 'which_key_ignore']        ,
-    \ 'll' : ['bnext'     , 'Next buffer']        ,
-    \ 'hh' : ['bprevious' , 'Previous buffer']        ,
+    \ 'll' : ['bnext'     , 'Next buffer']             ,
+    \ 'hh' : ['bprevious' , 'Previous buffer']         ,
     \ }
 
 " WhichKey buffer
@@ -457,19 +495,19 @@ let g:which_key_map.b = {
 " WhichKey nerdcommenter
 let g:which_key_map.c = {
     \ 'name' : '+comment' ,
-    \ ' ' : ['<plug>NERDCommenterToggle'    , 'Toggle comment']          ,
-    \ '$' : ['<plug>NERDCommenterToEOL'       , 'Comment to EOL']          ,
-    \ 'c' : ['<plug>NERDCommenterComment'    , 'Comment selection']          ,
-    \ 'u' : ['<plug>NERDCommenterUncomment'    , 'Uncomment selection']          ,
-    \ 'm' : ['<plug>NERDCommenterMinimal'    , 'Minimal comment']          ,
-    \ 's' : ['<plug>NERDCommenterSexy'    , 'Sexy comment']          ,
-    \ 'l' : ['<plug>NERDCommenterAlignLeft'    , 'Left side comment']          ,
-    \ 'n' : ['<plug>NERDCommenterNested'    , 'Nested comment']          ,
-    \ 'i' : ['<plug>NERDCommenterInvert'    , 'Invert comment']          ,
-    \ 'A' : ['<plug>NERDCommenterAppend'    , 'which_key_ignore']          ,
-    \ 'y' : ['<plug>NERDCommenterYank'    , 'which_key_ignore']          ,
-    \ 'a' : ['<plug>NERDCommenterAltDelims'    , 'which_key_ignore']          ,
-    \ 'b' : ['<plug>NERDCommenterAlignBoth'    , 'which_key_ignore']          ,
+    \ ' ' : ['<plug>NERDCommenterToggle'       , 'Toggle comment']         ,
+    \ '$' : ['<plug>NERDCommenterToEOL'        , 'Comment to EOL']         ,
+    \ 'c' : ['<plug>NERDCommenterComment'      , 'Comment selection']      ,
+    \ 'u' : ['<plug>NERDCommenterUncomment'    , 'Uncomment selection']    ,
+    \ 'm' : ['<plug>NERDCommenterMinimal'      , 'Minimal comment']        ,
+    \ 's' : ['<plug>NERDCommenterSexy'         , 'Sexy comment']           ,
+    \ 'l' : ['<plug>NERDCommenterAlignLeft'    , 'Left side comment']      ,
+    \ 'n' : ['<plug>NERDCommenterNested'       , 'Nested comment']         ,
+    \ 'i' : ['<plug>NERDCommenterInvert'       , 'Invert comment']         ,
+    \ 'A' : ['<plug>NERDCommenterAppend'       , 'which_key_ignore']       ,
+    \ 'y' : ['<plug>NERDCommenterYank'         , 'which_key_ignore']       ,
+    \ 'a' : ['<plug>NERDCommenterAltDelims'    , 'which_key_ignore']       ,
+    \ 'b' : ['<plug>NERDCommenterAlignBoth'    , 'which_key_ignore']       ,
     \ }
 
 " WhichKey fzf

@@ -102,7 +102,7 @@ export VISUAL=nvim
 export EDITOR="$VISUAL"
 
 # fix nvim colors inside tmux
-if [ -n $TMUX ]; then
+if [ -n "$TMUX" ]; then
     alias nvim="TERM=screen-256color nvim"
 fi
 
