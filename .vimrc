@@ -384,16 +384,17 @@ let g:NERDCompactSexyComs = 1
 " ALE
 let g:ale_fix_on_save = 1
 let g:ale_linters_explicit = 1
+
 let g:ale_fixers = {
-    \ '*'          : ['remove_trailing_lines', 'trim_whitespace'],
-    \ 'python'     : ['isort', 'black'],
-    \ 'r'          : ['styler'],
+    \ '*'          : ['remove_trailing_lines', 'trim_whitespace']           ,
+    \ 'python'     : ['isort', 'black']                                     ,
+    \ 'r'          : ['styler']                                             ,
     \ }
 
 let g:ale_linters = {
-    \ 'python'     : ['flake8'],
-    \ 'r'          : ['lintr'],
-    \ 'sh'         : ['shellcheck'],
+    \ 'python'     : ['flake8']                                             ,
+    \ 'r'          : ['lintr']                                              ,
+    \ 'sh'         : ['shellcheck']                                         ,
     \ }
 
 " GitGutter

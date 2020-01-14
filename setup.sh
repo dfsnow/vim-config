@@ -40,10 +40,9 @@ if [[ "$OSTYPE" == "linux-gnu" ]]; then
 
     # Install linters if prompt was yes
     if [[ "$lint_answer" =~ ^[Yy]$ ]]; then
-	sudo apt install -y \
-	    shellcheck python3-pip r-base
+	sudo apt install -y shellcheck python3-pip r-base
 	pip3 install black isort flake8
-	Rscript -e 'install.packages("styler", "lintr", repos="https://cran.rstudio.com")'
+	Rscript -e 'install.packages(c("styler", "lintr"), repos="https://cloud.r-project.org/")'
     fi
 
 elif [[ "$OSTYPE" == "darwin"* ]]; then
@@ -53,7 +52,7 @@ elif [[ "$OSTYPE" == "darwin"* ]]; then
     if [[ "$lint_answer" =~ ^[Yy]$ ]]; then
 	brew install shellcheck python3 r
 	pip3 install black isort flake8
-	Rscript -e 'install.packages("styler", "lintr", repos="https://cran.rstudio.com")'
+	Rscript -e 'install.packages(c("styler", "lintr"), repos="https://cloud.r-project.org/")'
     fi
 fi
 
