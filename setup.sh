@@ -38,6 +38,10 @@ params="-sf"
 curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
+# Install git bash completion
+curl -fLo $script_home/.git-completion.bash --create-dirs \
+    https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash
+
 # Create symlinks to all files and folders
 for i in .vimrc .vim .dircolors .bashrc .inputrc \
     .tmux.conf .bash_aliases .gitconfig .git-completion.bash

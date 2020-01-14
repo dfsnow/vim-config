@@ -76,7 +76,6 @@ if [[ "$OSTYPE" == "linux-gnu" ]]; then
 	    . /usr/share/bash-completion/bash_completion
 	elif [ -f /etc/bash_completion ]; then
 	    . /etc/bash_completion
-	    echo "Bash installed"
 	fi
     fi
 
@@ -86,6 +85,12 @@ elif [[ "$OSTYPE" == "darwin"* ]]; then
 	. $(brew --prefix)/etc/profile.d/bash_completion.sh
     fi
 fi
+
+# git bash completion
+if [ -f ~/.git-completion.bash ]; then
+    . ~/.git-completion.bash
+fi
+
 
 # alias definitions
 if [ -f ~/.bash_aliases ]; then
