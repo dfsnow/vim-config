@@ -34,6 +34,9 @@ fi
 script_home="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 params="-sf"
 
+# Make vim plugin directory
+mkdir -p $script_home/.vim/
+
 # Install vim-plug
 curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
