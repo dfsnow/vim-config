@@ -3,10 +3,10 @@
 # Install tmux and neovim
 if [[ "$OSTYPE" == "linux-gnu" ]]; then
     sudo apt install -y \
-	curl rename git bash-completion \            # tools and utilities
-	libevent-dev libncurses5-dev \               # tmux deps
-	ninja-build gettext libtool libtool-bin \    # neovim deps
-	autoconf automake cmake g++ pkg-config unzip # neovim deps
+	curl rename git bash-completion \
+	libevent-dev libncurses5-dev byacc \
+	ninja-build gettext libtool libtool-bin \
+	autoconf automake cmake g++ pkg-config unzip
 
     # Install the latest version of tmux
     git clone https://github.com/tmux/tmux.git
@@ -24,7 +24,6 @@ if [[ "$OSTYPE" == "linux-gnu" ]]; then
     rm -rf tmux neovim
 
 elif [[ "$OSTYPE" == "darwin"* ]]; then
-    echo "yest"
     brew install neovim
     brew install tmux
     brew install git
