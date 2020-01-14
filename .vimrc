@@ -11,14 +11,14 @@ Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 Plug 'itchyny/vim-gitbranch'
 
-" Movement and formating
+" Movement and formatting
 Plug 'tpope/vim-sleuth'
 Plug 'tpope/vim-surround'
 Plug 'easymotion/vim-easymotion'
-Plug 'scrooloose/nerdcommenter'
 
-" Search and integration
+" Convenience functions
 Plug 'wincent/terminus'
+Plug 'scrooloose/nerdcommenter'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 
@@ -30,16 +30,16 @@ call plug#end()
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Sections:
 "    -> General
-"    -> VIM user interface
+"    -> VIM User Interface
 "    -> Colors and Fonts
-"    -> Files and backups
-"    -> Text, tab and indent related
-"    -> Moving around, tabs and buffers
-"    -> Status line
-"    -> Editing mappings
-"    -> Spell checking
-"    -> Helper functions
-"    -> Misc and plugins
+"    -> Files and Backups
+"    -> Text, Tab and Indent Related
+"    -> Moving Around, Tabs and Buffers
+"    -> Editing Mappings
+"    -> Spell Checkings
+"    -> Helper Functions
+"    -> Miscellaneous
+"    -> Plugins 
 "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -76,7 +76,7 @@ command Q :q!
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => VIM user interface
+" => VIM User Interface
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Set 7 lines to the cursor - when moving vertically using j/k
 set so=7
@@ -191,7 +191,7 @@ set ffs=unix,dos,mac
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Files, backups and undo
+" => Files, Backups and Undo
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Turn backup off, since most stuff is in SVN, git et.c anyway...
 set nobackup
@@ -200,7 +200,7 @@ set noswapfile
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => text, tab and indent related
+" => Text, Tab and Indent Related
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " linebreak on 500 characters
 set lbr
@@ -216,7 +216,7 @@ vnoremap > >gv
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Moving around, tabs, windows and buffers
+" => Moving around, Tabs, Windows and Buffers
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Split new buffers to the right
 set splitright
@@ -257,18 +257,8 @@ endtry
 au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 
 
-""""""""""""""""""""""""""""""
-" => Status line
-""""""""""""""""""""""""""""""
-" Always show the status line
-set laststatus=2
-
-" Format the status line
-set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ Line:\ %l\ \ Column:\ %c
-
-
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Editing mappings
+" => Editing Mappings
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Remap VIM 0 to first non-blank character
 map 0 ^
@@ -288,7 +278,7 @@ endif
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Spell checking
+" => Spell Checking
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Pressing ,ss will toggle and untoggle spell checking
 map <leader>ss :setlocal spell!<cr>
@@ -301,7 +291,7 @@ map <leader>s? z=
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Helper functions
+" => Helper Functions
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Returns true if paste mode is enabled
 function! HasPaste()
@@ -357,7 +347,7 @@ endfunction
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Misc and plugin settings
+" => Miscellaneous 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Toggle paste mode on and off
 map <leader>v :setlocal paste!<cr>
@@ -367,25 +357,39 @@ if v:version > 703 || v:version == 703 && has('patch541')
   set formatoptions+=j
 endif
 
+" R indentation fix
+let r_indent_align_args = 0
+
 " Remapping enter and backspace in Normal mode
 nnoremap <BS> {
 onoremap <BS> {
 vnoremap <BS> {
-
 nnoremap <expr> <CR> empty(&buftype) ? '}' : '<CR>'
 onoremap <expr> <CR> empty(&buftype) ? '}' : '<CR>'
 vnoremap <CR> }
 
-" Searching files in Git, Git mappings
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Plugin Settings 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" GitGutter 
 let g:gitgutter_map_keys = 0
-nnoremap <leader>gn :GitGutterNextHunk<CR>
-nnoremap <leader>gp :GitGutterPrevHunk<CR>
-nnoremap <leader>gu :GitGutterUndoHunk<CR>
+nnoremap <c-N> :GitGutterNextHunk<CR>
+nnoremap <c-P> :GitGutterPrevHunk<CR>
+nnoremap <c-U> :GitGutterUndoHunk<CR>
 nmap <leader>gg :GitGutterToggle<CR>
 nmap <leader>ga :GitGutterStageHunk<CR>
 nmap <leader>gv :GitGutterPreviewHunk<CR>
 
-" Easymotion keymappings
+" Git Fugitive  
+nnoremap <Leader>gs :Gstatus<CR>
+nnoremap <Leader>gd :Gdiff<CR>
+nnoremap <Leader>gb :Gblame<CR>
+nnoremap <Leader>gl :exe ':!cd ' . expand('%:p:h') . '; git l'<CR>
+nnoremap <Leader>gp :Git push<CR>
+nnoremap ? :GFiles<CR>
+
+" Easymotion 
 nmap <space> <Plug>(easymotion-prefix)s
 map  / <Plug>(easymotion-sn)
 omap / <Plug>(easymotion-tn)
@@ -393,12 +397,12 @@ map  n <Plug>(easymotion-next)
 map  N <Plug>(easymotion-prev)
 let g:EasyMotion_smartcase = 1
 
-
-" Dracula options
+" Dracula 
 let g:dracula_colorterm = 0
 colorscheme dracula
 
-" Lightline options
+" Lightline 
+set laststatus=2
 set noshowmode
 let g:lightline = {
   \ 'colorscheme': 'dracula',
@@ -411,15 +415,13 @@ let g:lightline = {
   \ },
   \ }
 
-" FZF options and commands
+" FZF 
 nmap <Leader>fg :GFiles<CR>
 nmap <Leader>ff :Files<CR>
 nmap <Leader>fb :Buffers<CR>
 nmap <Leader>fh :History<CR>
 nmap <Leader>fl :BLines<CR>
 
-" WhichKey options
+" WhichKey 
 nnoremap <silent> <leader><leader> :<c-u>WhichKey  ','<CR>
 
-" R indentation fix
-let r_indent_align_args = 0

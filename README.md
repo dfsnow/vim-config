@@ -2,9 +2,13 @@
 
 A collection of useful dotfiles + setup scripts + configs for cloning to remote computers
 
-## Vim Stuff
+### Surround
 
-Some vim tips + tricks I've pulled from StackOverflow [1](https://stackoverflow.com/questions/1218390/what-is-your-most-productive-shortcut-with-vim/1220118#1220118) [2](https://stackoverflow.com/questions/30130553/whats-the-vim-way-to-select-multiple-instances-of-current-word-and-change-them?rq=1) and various blogs 
+ * `cs"'` to change `"` to `'`
+ * `cs"<q>` to change `"` to `<q>`
+ * `ds"` to entirely delete  `"` 
+ * `yss"` to wrap an entire line in `"`
+ * Use linewise visual mode followed by `S` to surround your selection
 
 ### Movement
 
