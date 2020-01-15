@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# MAIN BASH CONFIG 
+# MAIN BASH CONFIG
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 
@@ -110,3 +110,5 @@ if [ -n "$TMUX" ]; then
     alias nvim="TERM=screen-256color nvim"
 fi
 
+# add fzf support
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash

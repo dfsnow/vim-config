@@ -498,7 +498,7 @@ call which_key#register(',', "g:which_key_map")
 
 " WhichKey defaults
 let g:which_key_map = {
-    \ 'ea' : ['<Plug>(EasyAlign)' , 'Run EasyAlign']   ,
+    \ 'ea': ['<Plug>(EasyAlign)', 'Run EasyAlign']     ,
     \ 'v' : [':setlocal paste!' , 'Paste mode']        ,
     \ '?' : ['GFiles'     , 'Search git files']        ,
     \ 'h' : ['<C-W><C-H>' , 'Window left']             ,
@@ -508,8 +508,8 @@ let g:which_key_map = {
     \ 'Q' : ['q!'         , 'which_key_ignore']        ,
     \ 'w' : ['w!'         , 'which_key_ignore']        ,
     \ 'q' : ['q'          , 'which_key_ignore']        ,
-    \ 'll' : ['bnext'     , 'Next buffer']             ,
-    \ 'hh' : ['bprevious' , 'Previous buffer']         ,
+    \ 'll': ['bnext'      , 'Next buffer']             ,
+    \ 'hh': ['bprevious'  , 'Previous buffer']         ,
     \ }
 
 " WhichKey ale
