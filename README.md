@@ -6,7 +6,7 @@ A collection of useful dotfiles + setup scripts + configs for cloning to remote 
 
  * `cs"'` to change `"` to `'`
  * `cs"<q>` to change `"` to `<q>`
- * `ds"` to entirely delete  `"` 
+ * `ds"` to entirely delete  `"`
  * `yss"` to wrap an entire line in `"`
  * Use linewise visual mode followed by `S` to surround your selection
 
@@ -23,6 +23,7 @@ A collection of useful dotfiles + setup scripts + configs for cloning to remote 
 
 ### Handy Tricks
 
+ * `S` will replace the current word last yank
  * `ci(` = change text between ( .. )
  * `J` joins two lines
  * Ctrl+A / Ctrl+X increments/decrements a number

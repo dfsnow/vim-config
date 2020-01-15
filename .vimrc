@@ -23,6 +23,7 @@ Plug 'wincent/terminus'
 Plug 'scrooloose/nerdcommenter'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
+Plug 'junegunn/vim-easy-align'
 
 " Linting and completion
 Plug 'dense-analysis/ale'
@@ -356,7 +357,7 @@ endfunction
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Toggle paste mode on and off
 map <leader>v :setlocal paste!<cr>
-"
+
 " Better line joins
 if v:version > 703 || v:version == 703 && has('patch541')
   set formatoptions+=j
@@ -372,6 +373,10 @@ vnoremap <BS> {
 nnoremap <expr> <CR> empty(&buftype) ? '}' : '<CR>'
 onoremap <expr> <CR> empty(&buftype) ? '}' : '<CR>'
 vnoremap <CR> }
+
+" Replace word with last yank
+nnoremap S diw"0P
+vnoremap S "_d"0P"
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -405,6 +410,9 @@ nnoremap <leader>ai :ALEInfo<CR>
 nnoremap <leader>an :ALENextWrap<CR>
 nnoremap <leader>ap :ALEPreviousWrap<CR>
 
+" EasyAlign
+xmap ea <Plug>(EasyAlign)
+nmap ea <Plug>(EasyAlign)
 
 " GitGutter
 let g:gitgutter_map_keys = 0
@@ -490,6 +498,7 @@ call which_key#register(',', "g:which_key_map")
 
 " WhichKey defaults
 let g:which_key_map = {
+    \ 'ea' : ['<Plug>(EasyAlign)' , 'Run EasyAlign']   ,
     \ 'v' : [':setlocal paste!' , 'Paste mode']        ,
     \ '?' : ['GFiles'     , 'Search git files']        ,
     \ 'h' : ['<C-W><C-H>' , 'Window left']             ,
