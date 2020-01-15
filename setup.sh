@@ -42,7 +42,7 @@ if [[ "$OSTYPE" == "linux-gnu" ]]; then
     if [[ "$lint_answer" =~ ^[Yy]$ ]]; then
 	sudo apt install -y \
 	    shellcheck python3-pip r-base libxml2-dev libcurl4-openssl-dev
-	pip3 install black isort flake8
+	pip3 install black isort flake8 sqlparse
 	export R_INSTALL_STAGED=FALSE
 	sudo Rscript -e \
 	    'install.packages(c("styler", "lintr"), repos="https://cloud.r-project.org/")'
@@ -54,7 +54,7 @@ elif [[ "$OSTYPE" == "darwin"* ]]; then
     # Install linters if prompt was yes
     if [[ "$lint_answer" =~ ^[Yy]$ ]]; then
 	brew install shellcheck python3 r
-	pip3 install black isort flake8
+	pip3 install black isort flake8 sqlparse
 	Rscript -e \
 	    'install.packages(c("styler", "lintr"), repos="https://cloud.r-project.org/")'
     fi

@@ -26,7 +26,6 @@ Plug 'junegunn/fzf.vim'
 " Linting and completion
 Plug 'dense-analysis/ale'
 
-
 call plug#end()
 
 
@@ -385,17 +384,17 @@ let g:NERDCompactSexyComs = 1
 let g:ale_fix_on_save = 1
 let g:ale_linters_explicit = 1
 let g:ale_fixers = {
-    \ '*'          : ['remove_trailing_lines', 'trim_whitespace']           ,
-    \ 'python'     : ['isort', 'black']                                     ,
-    \ 'rmd'        : ['styler']                                             ,
-    \ 'r'          : ['styler']                                             ,
+    \ '*'          : ['remove_trailing_lines', 'trim_whitespace']  ,
+    \ 'python'     : ['isort', 'black']                ,
+    \ 'rmd'        : ['styler']                        ,
+    \ 'r'          : ['styler']                        ,
     \ }
 
 let g:ale_linters = {
-    \ 'python'     : ['flake8']                                             ,
-    \ 'r'          : ['lintr']                                              ,
-    \ 'rmd'        : ['lintr']                                              ,
-    \ 'sh'         : ['shellcheck']                                         ,
+    \ 'python'     : ['flake8']                        ,
+    \ 'r'          : ['lintr']                         ,
+    \ 'rmd'        : ['lintr']                         ,
+    \ 'sh'         : ['shellcheck']                    ,
     \ }
 
 nnoremap <leader>at :ALEToggle<CR>
