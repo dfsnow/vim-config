@@ -401,6 +401,9 @@ nnoremap <leader>at :ALEToggle<CR>
 nnoremap <leader>af :ALEFix<CR>
 nnoremap <leader>as :ALEFixSuggest<CR>
 nnoremap <leader>ai :ALEInfo<CR>
+nnoremap <leader>an :ALENextWrap<CR>
+nnoremap <leader>ap :ALEPreviousWrap<CR>
+
 
 " GitGutter
 let g:gitgutter_map_keys = 0
@@ -408,6 +411,8 @@ nnoremap <c-N> :GitGutterNextHunk<CR>
 nnoremap <c-P> :GitGutterPrevHunk<CR>
 nnoremap <c-U> :GitGutterUndoHunk<CR>
 nmap <leader>gg :GitGutterToggle<CR>
+nmap <leader>gn :GitGutterNextHunk<CR>
+nmap <leader>gp :GitGutterPrevHunk<CR>
 nmap <leader>ga :GitGutterStageHunk<CR>
 nmap <leader>gv :GitGutterPreviewHunk<CR>
 nmap <leader>gu :GitGutterUndoHunk<CR>
@@ -417,7 +422,6 @@ nnoremap <Leader>gs :Gstatus<CR>
 nnoremap <Leader>gd :Gdiff<CR>
 nnoremap <Leader>gb :Gblame<CR>
 nnoremap <Leader>gl :exe ':!cd ' . expand('%:p:h') . '; git l'<CR>
-nnoremap <Leader>gp :Git push<CR>
 nnoremap ? :GFiles<CR>
 
 " Easymotion
@@ -494,10 +498,12 @@ let g:which_key_map = {
 " WhichKey ale
 let g:which_key_map.a = {
     \ 'name' : '+ale' ,
-    \ 's' : ['ALEFixSuggest', 'Suggest fixers']        ,
-    \ 'i' : ['ALEInfo'    , 'View runtime info']       ,
-    \ 't' : ['ALEToggle'  , 'Toggle linting']          ,
-    \ 'f' : ['ALEFix'     , 'Run fixers']              ,
+    \ 's' : ['ALEFixSuggest'                   , 'Suggest fixers']         ,
+    \ 'i' : ['ALEInfo'                         , 'View runtime info']      ,
+    \ 't' : ['ALEToggle'                       , 'Toggle linting']         ,
+    \ 'f' : ['ALEFix'                          , 'Run fixers']             ,
+    \ 'n' : ['ALENextWrap'                     , 'Next ALE error']         ,
+    \ 'p' : ['ALEPreviousWrap'                 , 'Previous ALE error']     ,
     \ }
 
 " WhichKey buffer
@@ -544,7 +550,7 @@ let g:which_key_map.f = {
 " WhichKey git
 let g:which_key_map.g = {
     \ 'name' : '+git' ,
-    \ 'l' : [":exe ':!cd ' . expand('%:p:h') . '; git l'", 'Preview hunk'] ,
+    \ 'l' : [":exe ':!cd ' . expand('%:p:h') . '; git l'", 'View logs'] ,
     \ 'g' : ['GitGutterToggle'      , 'Toggle GitGutter']                  ,
     \ 'b' : ['Gblame'               , 'View blame']                        ,
     \ 'a' : ['GitGutterStageHunk'   , 'Stage hunk']                        ,
@@ -552,7 +558,8 @@ let g:which_key_map.g = {
     \ 's' : ['Gstatus'              , 'View status']                       ,
     \ 'v' : ['GitGutterPreviewHunk' , 'Preview hunk']                      ,
     \ 'u' : ['GitGutterUndoHunk'    , 'Undo hunk']                         ,
-    \ 'p' : ['Gpush'                , 'Push commits']                      ,
+    \ 'n' : ['GitGutterNextHunk'    , 'Next hunk']                         ,
+    \ 'p' : ['GitGutterPrevHunk'    , 'Previous hunk']                     ,
     \ }
 
 " WhichKey spellcheck
