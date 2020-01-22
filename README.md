@@ -2,6 +2,29 @@
 
 A collection of useful dotfiles + setup scripts + configs for cloning to remote computers
 
+
+## Tmux
+
+Tmux prefix is `Ctrl + a`
+
+### Windows
+
+ * `prefix + c` to open new window
+ * `prefix + &` close current window
+ * `prefix + ,` rename current window
+ * `prefix + n` next window
+ * `prefix + p` previous window
+
+### Panes
+
+ * `prefix + -` split window horizontally
+ * `prefix + _` split window vertically
+ * `prefix + x` close current pane
+ * `prefix + q` kill current session
+
+
+## Vim
+
 ### Surround
 
  * `cs"'` to change `"` to `'`
