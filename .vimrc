@@ -18,8 +18,11 @@ Plug 'tpope/vim-sleuth'
 Plug 'tpope/vim-surround'
 Plug 'easymotion/vim-easymotion'
 
-" Convenience functions
+" Better integration
 Plug 'wincent/terminus'
+Plug 'tmux-plugins/vim-tmux-focus-events'
+
+" Convenience functions
 Plug 'scrooloose/nerdcommenter'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
