@@ -42,4 +42,4 @@
 
 	# how many commits have been made by different authors
 	lw = shortlog -n -s --no-merges
-	lc = "!git ls-files | while read f; do git blame -w --line-porcelain -- "$f" | grep -I '^author '; done | sort -f | uniq -ic | sort -n"
+	lc = "!git log --numstat --pretty=\"%ae %H\" | sed 's/@.*//g' | awk '{ if (NF == 1){ name = $1}; if(NF == 3) {plus[name] += $1; minus[name] += $2}} END { for (name in plus) {print name\": +\"plus[name]\" -\"minus[name]}}' | sort -k2 -gr"
