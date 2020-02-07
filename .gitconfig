@@ -26,8 +26,8 @@
 	cl = clone
 
 	# undo previous commit
-	r = checkout HEAD^1 --
-	rh = reset --hard HEAD^1
+	r = checkout . 
+	rh = reset --hard
 
 	# logs
 	l = log --pretty=format:"%C(yellow)%h\\ %ad%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --date=short
