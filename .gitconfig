@@ -39,7 +39,7 @@
 	bl = "!git for-each-ref --sort='-authordate' --format='%(authordate)%09%(objectname:short)%09%(refname)' refs/heads | sed -e 's-refs/heads/--'"
 	b = branch
 	# Delete local branchs with no remote
-	bd = "!git branch --v | grep ': gone]' | awk '{print $1}' | xargs git branch -D"
+	bd = "!git branch --v | grep 'gone]' | awk '{print $1}' | xargs git branch -D"
 
 	# list aliases
 	la = "!git config -l | grep alias | cut -c 7-"
