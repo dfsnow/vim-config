@@ -95,7 +95,6 @@ if [ -f ~/.git-completion.bash ]; then
     . ~/.git-completion.bash
 fi
 
-
 # alias definitions
 if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
@@ -109,6 +108,11 @@ export EDITOR="$VISUAL"
 if [ -n "$TMUX" ]; then
     alias nvim="TERM=screen-256color nvim"
 fi
+
+# add fd support to fzf
+export FZF_DEFAULT_COMMAND="fd --type f --follow --exclude .git . $HOME"
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_ALT_C_COMMAND="fd --type d --follow . $HOME"
 
 # add fzf support
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash

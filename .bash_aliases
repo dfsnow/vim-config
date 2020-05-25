@@ -36,3 +36,6 @@ alias .....='cd ../../../..'
 alias v='nvim'
 alias vi='nvim'
 alias vim='nvim'
+
+# alias for fd binary
+alias fd=fdfind

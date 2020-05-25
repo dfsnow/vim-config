@@ -1,5 +1,3 @@
 .vim
-bytesized-reroute-osx
-brew-update-notifier.sh
 *.log
 .git-completion.bash

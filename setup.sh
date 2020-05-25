@@ -12,7 +12,7 @@ if [[ "$OSTYPE" == "linux-gnu" ]]; then
 
     # Install basic utilities
     sudo apt install -y \
-	curl rename git bash-completion libssl-dev
+	curl rename git bash-completion libssl-dev fd-find
 
     if [[ "$source_answer" =~ ^[Yy]$ ]]; then
 	sudo apt install -y \
@@ -49,7 +49,7 @@ if [[ "$OSTYPE" == "linux-gnu" ]]; then
     fi
 
 elif [[ "$OSTYPE" == "darwin"* ]]; then
-    brew install neovim tmux git bash-completion
+    brew install neovim tmux git bash-completion fd
 
     # Install linters if prompt was yes
     if [[ "$lint_answer" =~ ^[Yy]$ ]]; then
