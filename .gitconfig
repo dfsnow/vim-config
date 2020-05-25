@@ -3,7 +3,7 @@
 	name = Dan Snow
 
 [core]
-	autocrlf = input
+	autocrlf = false
 
 [alias]
 	a = add
