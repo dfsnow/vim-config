@@ -37,7 +37,19 @@ alias v='nvim'
 alias vi='nvim'
 alias vim='nvim'
 
-# alias for fd binary
-if [ -f "/etc/debian_version" ]; then
-   alias fd=fdfind
+# Determine OS platform
+UNAME=$(uname | tr "[:upper:]" "[:lower:]")
+# If Linux, try to determine specific distribution
+if [ "$UNAME" == "linux" ]; then
+    # If available, use LSB to identify distribution
+    if [ -f /etc/lsb-release -o -d /etc/lsb-release.d ]; then
+        export DISTRO=$(lsb_release -i | cut -d: -f2 | sed s/'^\t'//)
+    # Otherwise, use release info file
+    else
+        export DISTRO=$(ls -d /etc/[A-Za-z]*[_-][rv]e[lr]* | grep -v "lsb" | cut -d'/' -f3 | cut -d'-' -f1 | cut -d'_' -f1)
+    fi
 fi
+
+# For Debian systems add alias for fd
+if echo "$DISTRO" | grep -q "debian"; then alias fd=fdfind; fi
+unset UNAME
