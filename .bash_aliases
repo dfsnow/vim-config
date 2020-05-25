@@ -38,4 +38,6 @@ alias vi='nvim'
 alias vim='nvim'
 
 # alias for fd binary
-alias fd=fdfind
+if [ -f "/etc/debian_version" ]; then
+   alias fd=fdfind
+fi
