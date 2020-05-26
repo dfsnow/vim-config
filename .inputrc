@@ -1,15 +1,3 @@
-# these allow you to use ctrl+left/right arrow keys
-# to jump the cursor over words
-# -->> in mac, just set the preferences.
-
-"\e[1;5C": forward-word
-"\e[1;5D": backward-word
-
-
-# these allow you to start typing a command and
-# use the up/down arrow to auto complete from
-# commands in your history
-
 "\e[B": history-search-forward
 "\e[A": history-search-backward
 
@@ -19,3 +7,4 @@ set convert-meta off
 set input-meta on
 set output-meta on
 set editing-mode vi
+set keymap vi-insert
