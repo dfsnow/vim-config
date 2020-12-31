@@ -2,7 +2,6 @@
 
 A collection of useful dotfiles + setup scripts + configs for cloning to remote computers
 
-
 ## Tmux
 
 Tmux prefix is `Ctrl + a`

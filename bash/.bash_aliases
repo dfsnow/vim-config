@@ -1,12 +1,12 @@
-
-# Setting up various bash aliases
+# Alias common navigation commands
 alias c='clear'
-alias l='ls -lah'
+alias l='ls -ah'
+alias ls='ls -a'
 alias ll='ls -lah'
 alias ld='du -h -d 1'
 alias o='open .'
 
-# Git related aliases, see .gitconfig
+# Git related aliases automatically added by .gitconfig
 alias g='git'
 
 function_exists() {
@@ -23,16 +23,16 @@ for al in $(git config --get-regexp '^alias\.' | cut -f 1 -d ' ' | cut -f 2 -d '
 done
 unset al
 
-# Alias for directory backtracking
+# Aliases for directory backtracking
 alias ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
 alias .....='cd ../../../..'
 
-# fzf aliases
+# Fzf aliases
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
-# vim aliases to neovim
+# Vim aliases to neovim
 alias v='nvim'
 alias vi='nvim'
 alias vim='nvim'

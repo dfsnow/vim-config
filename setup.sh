@@ -1,20 +1,19 @@
 #!/bin/bash
 
-# Prompt to install linters and dependencies
-read -p "Install linters and their dependencies? [yn] " -n 1 -r lint_answer
-echo
-
-# Install tmux and neovim
+# Install script for debian-based systems
 if [[ "$OSTYPE" == "linux-gnu" ]]; then
-    # Prompt to install from source, otherwise from repo
+
+    # Prompt to install from source, otherwise from apt
     read -p "Install tmux/neovim from source? [yn] " -n 1 -r source_answer
     echo
 
     # Install basic utilities
     sudo apt install -y \
-	curl rename git bash-completion libssl-dev fd-find
+	curl stow rename git bash-completion libssl-dev fd-find
 
     if [[ "$source_answer" =~ ^[Yy]$ ]]; then
+
+	# Install build dependencies for tmux and neovim
 	sudo apt install -y \
 	    libevent-dev libncurses5-dev byacc \
 	    ninja-build gettext libtool libtool-bin \
@@ -34,58 +33,36 @@ if [[ "$OSTYPE" == "linux-gnu" ]]; then
 	sudo make install
 	cd ..
 	rm -rf tmux neovim
+
     else
 	sudo apt install -y tmux neovim
     fi
 
-    # Install linters if prompt was yes
-    if [[ "$lint_answer" =~ ^[Yy]$ ]]; then
-	sudo apt install -y \
-	    shellcheck python3-pip r-base libxml2-dev libcurl4-openssl-dev
-	pip3 install black isort flake8 sqlparse
-	export R_INSTALL_STAGED=FALSE
-	sudo Rscript -e \
-	    'install.packages(c("styler", "lintr"), repos="https://cloud.r-project.org/")'
-    fi
-
+# Install script for mac-based systems
 elif [[ "$OSTYPE" == "darwin"* ]]; then
-    brew install neovim tmux git bash-completion fd
 
-    # Install linters if prompt was yes
-    if [[ "$lint_answer" =~ ^[Yy]$ ]]; then
-	brew install shellcheck python3 r
-	pip3 install black isort flake8 sqlparse
-	Rscript -e \
-	    'install.packages(c("styler", "lintr"), repos="https://cloud.r-project.org/")'
-    fi
+    # Install brew package if not exists, else upgrade
+    function install_or_upgrade {
+	if brew ls --versions "$1" >/dev/null; then
+	    HOMEBREW_NO_AUTO_UPDATE=1 brew upgrade "$1"
+	else
+	    HOMEBREW_NO_AUTO_UPDATE=1 brew install "$1"
+	fi
+    }
+
+    for pkg in stow neovim tmux git bash-completion fd; do
+	install_or_upgrade "$pkg"
+    done
 fi
 
-# Store script location for reference
-script_home="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-params="-sf"
-
-# Make vim plugin directory
-mkdir -p "$script_home"/.vim/
+# Create symlinks to all files and folders using GNU stow
+for pkg in tmux vim bash git; do
+    stow "$pkg"
+done
 
 # Install vim-plug
 curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-
-# Install git bash completion
-curl -fLo "$script_home"/.git-completion.bash --create-dirs \
-    https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash
-
-# Create symlinks to all files and folders
-for i in .vimrc .vim .dircolors .bashrc .inputrc \
-    .tmux.conf .bash_aliases .gitconfig .git-completion.bash
-do
-    if [ -f "$HOME"/"$i" ]; then rm "$HOME"/"$i"; fi
-    ln $params "$script_home"/"$i" "$HOME"/"$i"
-done
-
-# Neovim init file setup
-mkdir -p "$HOME"/.config/nvim/
-cp "$script_home"/init.vim "$HOME"/.config/nvim/init.vim
 
 # Install plugins for vim
 nvim -E -c PlugInstall -c PlugUpdate -c qall
