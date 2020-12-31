@@ -1,10 +1,21 @@
 set completion-ignore-case on
-set expand-tilde on
+set expand-tilde off
 set convert-meta off
 set input-meta on
 set output-meta on
+
+# Set the default readline mode as vi
 set editing-mode vi
 set keymap vi-insert
+    "\e[B": history-search-forward
+    "\e[A": history-search-backward
 
-"\e[B": history-search-forward
-"\e[A": history-search-backward
+# Show the vi mode indicators
+set show-mode-in-prompt on
+
+# Stolen from https://github.com/camspiers/dotfiles/blob/master/files/.inputrc
+# Configures the cmd mode display
+set vi-cmd-mode-string "\1\e[48;5;2m\2\1\e[1;38;5;18m\2 N \1\e[0m\2 \1\e[0 q\2"
+
+# Configures the ins mode display
+set vi-ins-mode-string "\1\e[48;5;4m\2\1\e[1;38;5;18m\2 I \1\e[0m\2 \1\e[6 q\2"
