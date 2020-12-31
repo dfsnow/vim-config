@@ -3,7 +3,6 @@ call plug#begin('~/.vim/vim-plug')
 
 " UI and colors
 Plug 'itchyny/lightline.vim'
-Plug 'maximbaz/lightline-ale'
 Plug 'mengelbrecht/lightline-bufferline'
 Plug 'liuchengxu/vim-which-key'
 Plug 'dracula/vim',{'as':'dracula'}
@@ -30,6 +29,7 @@ Plug 'junegunn/vim-easy-align'
 
 " Linting and completion
 Plug 'dense-analysis/ale'
+Plug 'maximbaz/lightline-ale'
 
 call plug#end()
 

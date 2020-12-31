@@ -1,6 +1,13 @@
-# Dotfiles
+# Installation
 
-A collection of useful dotfiles + setup scripts + configs for cloning to remote computers
+```
+cd ~
+git clone https://github.com/dfsnow/dotfiles
+cd ~/dotfiles
+source setup.sh
+```
+
+# Usage
 
 ## Tmux
 
@@ -20,7 +27,6 @@ Tmux prefix is `Ctrl + a`
  * `prefix + _` split window vertically
  * `prefix + x` close current pane
  * `prefix + q` kill current session
-
 
 ## Vim
 
