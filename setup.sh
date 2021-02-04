@@ -20,19 +20,19 @@ if [[ "$OSTYPE" == "linux-gnu" ]]; then
 	    autoconf automake cmake g++ pkg-config unzip
 
 	# Install the latest version of tmux
-	git clone https://github.com/tmux/tmux.git
-	cd tmux || exit
+	git clone https://github.com/tmux/tmux.git build_tmux
+	cd build_tmux || exit
 	sh autogen.sh
 	./configure && make && sudo make install
 	cd ..
 
 	# Install the latest version of neovim
-	git clone https://github.com/neovim/neovim.git
-	cd neovim || exit
+	git clone https://github.com/neovim/neovim.git build_neovim
+	cd build_neovim || exit
 	make CMAKE_BUILD_TYPE=RelWithDebInfo
 	sudo make install
 	cd ..
-	rm -rf tmux neovim
+	rm -rf build_tmux build_neovim
 
     else
 	sudo apt install -y tmux neovim
