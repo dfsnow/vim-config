@@ -1,8 +1,8 @@
 # Alias common navigation commands
 alias c='clear'
-alias l='ls -ahG'
-alias ls='ls -aG'
-alias ll='ls -lahG'
+alias l='ls -hG --color=auto'
+alias ls='ls -hG --color=auto'
+alias ll='ls -lahG --color=auto'
 alias ld='du -h -d 1'
 alias o='open .'
 
