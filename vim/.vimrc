@@ -529,6 +529,8 @@ nmap <Leader>ff :Files<CR>
 nmap <Leader>fb :Buffers<CR>
 nmap <Leader>fh :History<CR>
 nmap <Leader>fl :BLines<CR>
+nmap <leader>fc :Maps<CR>
+nmap <leader>fm :Maps<CR>
 
 " WhichKey
 nnoremap <silent> <leader><leader> :<c-u>WhichKey  ','<CR>
@@ -603,6 +605,7 @@ let g:which_key_map.f = {
     \ 'b' : ['Buffers'    , 'Search buffers']          ,
     \ 'l' : ['BLines'     , 'Search lines']            ,
     \ 'h' : ['History'    , 'Search history']          ,
+    \ 'm' : ['Maps'       , 'Search maps']             ,
     \ }
 
 " WhichKey git
