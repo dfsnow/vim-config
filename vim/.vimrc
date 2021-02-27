@@ -10,7 +10,6 @@ Plug 'dracula/vim',{'as':'dracula'}
 " Git integration
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
-Plug 'itchyny/vim-gitbranch'
 
 " Movement and formatting
 Plug 'tpope/vim-sleuth'
@@ -25,11 +24,11 @@ Plug 'tmux-plugins/vim-tmux-focus-events'
 Plug 'scrooloose/nerdcommenter'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
-Plug 'junegunn/vim-easy-align'
 
 " Linting and completion
 Plug 'dense-analysis/ale'
 Plug 'maximbaz/lightline-ale'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 call plug#end()
 
@@ -390,13 +389,16 @@ let g:NERDSpaceDelims = 1
 let g:NERDCompactSexyComs = 1
 
 " ALE
-let g:ale_fix_on_save = 1
+let g:ale_sign_column_always = 1
+let g:ale_disable_lsp = 1
+let g:ale_fix_on_save = 0
 let g:ale_linters_explicit = 1
 let g:ale_fixers = {
     \ '*'          : ['remove_trailing_lines', 'trim_whitespace']  ,
     \ 'python'     : ['isort', 'black']                ,
     \ 'rmd'        : ['styler']                        ,
     \ 'r'          : ['styler']                        ,
+    \ 'css'        : ['stylelint']                     ,
     \ }
 
 let g:ale_linters = {
@@ -404,6 +406,8 @@ let g:ale_linters = {
     \ 'r'          : ['lintr']                         ,
     \ 'rmd'        : ['lintr']                         ,
     \ 'sh'         : ['shellcheck']                    ,
+    \ 'css'        : ['stylelint']                     ,
+    \ 'html'       : ['htmlhint']                      ,
     \ }
 
 nnoremap <leader>at :ALEToggle<CR>
@@ -413,9 +417,40 @@ nnoremap <leader>ai :ALEInfo<CR>
 nnoremap <leader>an :ALENextWrap<CR>
 nnoremap <leader>ap :ALEPreviousWrap<CR>
 
-" EasyAlign
-xmap ea <Plug>(EasyAlign)
-nmap ea <Plug>(EasyAlign)
+" CoC.nvim
+let g:coc_global_extensions = [
+    \ 'coc-json'    ,
+    \ 'coc-html'    ,
+    \ 'coc-css'     ,
+    \ 'coc-yaml'    ,
+    \ 'coc-toml'    ,
+    \ 'coc-sh'      ,
+    \ 'coc-pyright'
+    \ ]
+
+function! s:check_back_space() abort
+let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~ '\s'
+endfunction
+
+inoremap <silent><expr> <TAB>
+  \ pumvisible() ? "\<C-n>" :
+  \ <SID>check_back_space() ? "\<TAB>" :
+  \ coc#refresh()
+
+if has("patch-8.1.1564")
+  set signcolumn=number
+else
+  set signcolumn=yes
+endif
+
+inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
+  \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
 
 " GitGutter
 let g:gitgutter_map_keys = 0
@@ -485,7 +520,7 @@ let g:lightline.active = {
     \ 'left' : [
     \   ['mode', 'paste']                                                   ,
     \   ['gitbranch']                                                       ,
-    \   ['readonly', 'filename', 'modified'] ]
+    \   ['readonly', 'filename', 'modified'] ]                              ,
     \ }
 
 " FZF
@@ -501,18 +536,21 @@ call which_key#register(',', "g:which_key_map")
 
 " WhichKey defaults
 let g:which_key_map = {
-    \ 'ea': ['<Plug>(EasyAlign)', 'Run EasyAlign']     ,
-    \ 'v' : [':setlocal paste!' , 'Paste mode']        ,
-    \ '?' : ['GFiles'     , 'Search git files']        ,
-    \ 'h' : ['<C-W><C-H>' , 'Window left']             ,
-    \ 'j' : ['<C-W><C-J>' , 'Window down']             ,
-    \ 'k' : ['<C-W><C-K>' , 'Window up']               ,
-    \ 'l' : ['<C-W><C-L>' , 'Window right']            ,
-    \ 'Q' : ['q!'         , 'which_key_ignore']        ,
-    \ 'w' : ['w!'         , 'which_key_ignore']        ,
-    \ 'q' : ['q'          , 'which_key_ignore']        ,
-    \ 'll': ['bnext'      , 'Next buffer']             ,
-    \ 'hh': ['bprevious'  , 'Previous buffer']         ,
+    \ 'v' : [':setlocal paste!'             , 'Paste mode']              ,
+    \ '?' : ['GFiles'                       , 'Search git files']        ,
+    \ 'h' : ['<C-W><C-H>'                   , 'Window left']             ,
+    \ 'j' : ['<C-W><C-J>'                   , 'Window down']             ,
+    \ 'k' : ['<C-W><C-K>'                   , 'Window up']               ,
+    \ 'l' : ['<C-W><C-L>'                   , 'Window right']            ,
+    \ 'Q' : ['q!'                           , 'which_key_ignore']        ,
+    \ 'w' : ['w!'                           , 'which_key_ignore']        ,
+    \ 'q' : ['q'                            , 'which_key_ignore']        ,
+    \ 'll': ['bnext'                        , 'Next buffer']             ,
+    \ 'hh': ['bprevious'                    , 'Previous buffer']         ,
+    \ 'gd': ['<Plug>(coc-definition)'       , 'Go to definition']        ,
+    \ 'gy': ['<Plug>(coc-type-definition)'  , 'Go to type definition']   ,
+    \ 'gi': ['<Plug>(coc-implementation)'   , 'Go to implementation']    ,
+    \ 'gr': ['<Plug>(coc-references)'       , 'Go to references']        ,
     \ }
 
 " WhichKey ale

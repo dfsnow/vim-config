@@ -17,7 +17,8 @@ if [[ "$OSTYPE" == "linux-gnu" ]]; then
 	sudo apt install -y \
 	    libevent-dev libncurses5-dev byacc \
 	    ninja-build gettext libtool libtool-bin \
-	    autoconf automake cmake g++ pkg-config unzip
+	    autoconf automake cmake g++ pkg-config unzip \
+	    nodejs npm
 
 	# Install the latest version of tmux
 	git clone https://github.com/tmux/tmux.git build_tmux
@@ -35,7 +36,7 @@ if [[ "$OSTYPE" == "linux-gnu" ]]; then
 	rm -rf build_tmux build_neovim
 
     else
-	sudo apt install -y tmux neovim
+	sudo apt install -y tmux neovim nodejs npm
     fi
 
 # Install script for mac-based systems
@@ -50,7 +51,7 @@ elif [[ "$OSTYPE" == "darwin"* ]]; then
 	fi
     }
 
-    for pkg in stow neovim tmux git bash-completion fd; do
+    for pkg in stow neovim tmux git bash-completion fd node; do
 	install_or_upgrade "$pkg"
     done
 fi
@@ -65,7 +66,7 @@ curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
 # Install plugins for vim
-nvim -E -c PlugInstall -c PlugUpdate -c qall
+nvim +PlugInstall +PlugUpdate +qall
 
 # Reset inputrc and bashrc
 bind -f  ~/.inputrc
