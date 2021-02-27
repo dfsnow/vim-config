@@ -357,6 +357,9 @@ endfunction
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Miscellaneous
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Open README file with helpful tips
+map <leader>r :e ~/dotfiles/README.md<CR>
+
 " Toggle paste mode on and off
 map <leader>v :setlocal paste!<cr>
 

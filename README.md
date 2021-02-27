@@ -51,7 +51,7 @@ Tmux prefix is `Ctrl + a`
 
 ### Handy Tricks
 
- * `S` will replace the current word last yank
+ * `S` will replace the current word with last yank
  * `ci(` = change text between ( .. )
  * `J` joins two lines
  * Ctrl+A / Ctrl+X increments/decrements a number
