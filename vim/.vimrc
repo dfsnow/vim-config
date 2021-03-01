@@ -24,6 +24,7 @@ Plug 'tmux-plugins/vim-tmux-focus-events'
 Plug 'scrooloose/nerdcommenter'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
+Plug 'alvan/vim-closetag'
 
 " Linting and completion
 Plug 'dense-analysis/ale'
@@ -542,6 +543,7 @@ call which_key#register(',', "g:which_key_map")
 " WhichKey defaults
 let g:which_key_map = {
     \ 'v' : [':setlocal paste!'             , 'Paste mode']              ,
+    \ 'r' : [':e ~/dotfiles/README.md'      , 'Open README']             ,
     \ '?' : ['GFiles'                       , 'Search git files']        ,
     \ 'h' : ['<C-W><C-H>'                   , 'Window left']             ,
     \ 'j' : ['<C-W><C-J>'                   , 'Window down']             ,
