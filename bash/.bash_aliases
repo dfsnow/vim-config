@@ -1,10 +1,18 @@
 # Alias common navigation commands
 alias c='clear'
-alias l='ls -hG --color=auto'
-alias ls='ls -hG --color=auto'
-alias ll='ls -lahG --color=auto'
 alias ld='du -h -d 1'
 alias o='open .'
+
+# proper color handling for coreutils
+if [[ "$OSTYPE" == "linux-gnu" ]]; then
+    alias l='ls -hG --color=auto'
+    alias ls='ls -hG --color=auto'
+    alias ll='ls -lahG --color=auto'
+elif [[ "$OSTYPE" == "darwin"* ]]; then
+    alias l='ls -hG'
+    alias ls='ls -hG'
+    alias ll='ls -lahG'
+fi
 
 # Git related aliases automatically added by .gitconfig
 alias g='git'
