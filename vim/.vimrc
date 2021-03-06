@@ -6,6 +6,7 @@ Plug 'itchyny/lightline.vim'
 Plug 'mengelbrecht/lightline-bufferline'
 Plug 'liuchengxu/vim-which-key'
 Plug 'dracula/vim',{'as':'dracula'}
+Plug 'junegunn/goyo.vim'
 
 " Git integration
 Plug 'tpope/vim-fugitive'
@@ -452,7 +453,7 @@ inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
   \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
 nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gt <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 
@@ -474,6 +475,9 @@ nnoremap <Leader>gd :Gdiff<CR>
 nnoremap <Leader>gb :Gblame<CR>
 nnoremap <Leader>gl :exe ':!cd ' . expand('%:p:h') . '; git l'<CR>
 nnoremap ? :GFiles<CR>
+
+" Goyo
+nmap <leader>gy :Goyo<CR>
 
 " Easymotion
 nmap <space> <Plug>(easymotion-prefix)s
@@ -555,9 +559,10 @@ let g:which_key_map = {
     \ 'll': ['bnext'                        , 'Next buffer']             ,
     \ 'hh': ['bprevious'                    , 'Previous buffer']         ,
     \ 'gd': ['<Plug>(coc-definition)'       , 'Go to definition']        ,
-    \ 'gy': ['<Plug>(coc-type-definition)'  , 'Go to type definition']   ,
+    \ 'gt': ['<Plug>(coc-type-definition)'  , 'Go to type definition']   ,
     \ 'gi': ['<Plug>(coc-implementation)'   , 'Go to implementation']    ,
     \ 'gr': ['<Plug>(coc-references)'       , 'Go to references']        ,
+    \ 'gy': ['Goyo'                         , 'Distraction-free mode']   ,
     \ }
 
 " WhichKey ale
