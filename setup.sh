@@ -9,7 +9,7 @@ if [[ "$OSTYPE" == "linux-gnu" ]]; then
 
     # Install basic utilities
     sudo apt install -y \
-	curl stow rename git bash-completion libssl-dev fd-find
+	curl stow rename git bash-completion libssl-dev fd-find ripgrep
 
     if [[ "$source_answer" =~ ^[Yy]$ ]]; then
 
@@ -51,7 +51,7 @@ elif [[ "$OSTYPE" == "darwin"* ]]; then
 	fi
     }
 
-    for pkg in stow neovim tmux git bash-completion fd node; do
+    for pkg in stow neovim tmux git bash-completion fd node ripgrep; do
 	install_or_upgrade "$pkg"
     done
 fi

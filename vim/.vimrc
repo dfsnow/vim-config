@@ -4,6 +4,7 @@ call plug#begin('~/.vim/vim-plug')
 " UI and colors
 Plug 'itchyny/lightline.vim'
 Plug 'mengelbrecht/lightline-bufferline'
+Plug 'maximbaz/lightline-ale'
 Plug 'liuchengxu/vim-which-key'
 Plug 'dracula/vim',{'as':'dracula'}
 Plug 'junegunn/goyo.vim'
@@ -12,24 +13,20 @@ Plug 'junegunn/goyo.vim'
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 
-" Movement and formatting
+" Formatting
 Plug 'tpope/vim-sleuth'
-Plug 'tpope/vim-surround'
-Plug 'easymotion/vim-easymotion'
-
-" Better integration
-Plug 'wincent/terminus'
-Plug 'tmux-plugins/vim-tmux-focus-events'
-
-" Convenience functions
 Plug 'scrooloose/nerdcommenter'
+
+" Terminal integration
+Plug 'wincent/terminus'
+
+" Movement and search
+Plug 'tpope/vim-surround'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
-Plug 'alvan/vim-closetag'
 
 " Linting and completion
 Plug 'dense-analysis/ale'
-Plug 'maximbaz/lightline-ale'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 call plug#end()
@@ -72,10 +69,8 @@ set autoread
 let mapleader = ","
 let g:mapleader = ","
 
-" Fast saving
-nmap <leader>w :w!<cr>
-
 " Fast quitting and saving
+nmap <leader>w :w!<cr>
 nmap <leader>q :q<cr>
 nmap <leader>Q :q!<cr>
 
@@ -155,9 +150,6 @@ set tm=500
 if has("gui_macvim")
     autocmd GUIEnter * set vb t_vb=
 endif
-
-" Add a bit extra margin to the left
-set foldcolumn=0
 
 " Show the line number
 set number
@@ -359,6 +351,12 @@ endfunction
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Miscellaneous
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Enable folding
+set foldcolumn=1
+set foldmethod=indent
+set foldlevel=99
+nnoremap <space> za
+
 " Open README file with helpful tips
 map <leader>r :e ~/dotfiles/README.md<CR>
 
@@ -370,20 +368,16 @@ if v:version > 703 || v:version == 703 && has('patch541')
   set formatoptions+=j
 endif
 
-" R indentation fix
+" Fix R indentation 
 let r_indent_align_args = 0
 
-" Remapping enter and backspace in Normal mode
+" Remap enter and backspace in Normal mode
 nnoremap <BS> {
 onoremap <BS> {
 vnoremap <BS> {
 nnoremap <expr> <CR> empty(&buftype) ? '}' : '<CR>'
 onoremap <expr> <CR> empty(&buftype) ? '}' : '<CR>'
 vnoremap <CR> }
-
-" Replace word with last yank
-nnoremap S diw"0P
-vnoremap S "_d"0P"
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -393,8 +387,13 @@ vnoremap S "_d"0P"
 let g:NERDSpaceDelims = 1
 let g:NERDCompactSexyComs = 1
 
+" vim-sneak
+map f <Plug>Sneak_f
+map F <Plug>Sneak_F
+map t <Plug>Sneak_t
+map T <Plug>Sneak_T
+
 " ALE
-let g:ale_sign_column_always = 1
 let g:ale_disable_lsp = 1
 let g:ale_fix_on_save = 0
 let g:ale_linters_explicit = 1
@@ -468,24 +467,16 @@ nmap <leader>gp :GitGutterPrevHunk<CR>
 nmap <leader>ga :GitGutterStageHunk<CR>
 nmap <leader>gv :GitGutterPreviewHunk<CR>
 nmap <leader>gu :GitGutterUndoHunk<CR>
+nmap <Leader>gf :GFiles<CR>
 
 " Git Fugitive
 nnoremap <Leader>gs :Gstatus<CR>
 nnoremap <Leader>gd :Gdiff<CR>
 nnoremap <Leader>gb :Gblame<CR>
 nnoremap <Leader>gl :exe ':!cd ' . expand('%:p:h') . '; git l'<CR>
-nnoremap ? :GFiles<CR>
 
 " Goyo
-nmap <leader>gy :Goyo<CR>
-
-" Easymotion
-nmap <space> <Plug>(easymotion-prefix)s
-map  / <Plug>(easymotion-sn)
-omap / <Plug>(easymotion-tn)
-map  n <Plug>(easymotion-next)
-map  N <Plug>(easymotion-prev)
-let g:EasyMotion_smartcase = 1
+nmap <leader>y :Goyo<CR>
 
 " Dracula
 let g:dracula_colorterm = 0
@@ -532,13 +523,15 @@ let g:lightline.active = {
     \ }
 
 " FZF
-nmap <Leader>fg :GFiles<CR>
 nmap <Leader>ff :Files<CR>
+nmap <Leader>fg :GFiles<CR>
 nmap <Leader>fb :Buffers<CR>
 nmap <Leader>fh :History<CR>
 nmap <Leader>fl :BLines<CR>
-nmap <leader>fc :Maps<CR>
 nmap <leader>fm :Maps<CR>
+nmap <leader>fc :Commits<CR>
+nmap <leader>fr :Rg<CR>
+nnoremap ? :Rg<CR>
 
 " WhichKey
 nnoremap <silent> <leader><leader> :<c-u>WhichKey  ','<CR>
@@ -548,7 +541,7 @@ call which_key#register(',', "g:which_key_map")
 let g:which_key_map = {
     \ 'v' : [':setlocal paste!'             , 'Paste mode']              ,
     \ 'r' : [':e ~/dotfiles/README.md'      , 'Open README']             ,
-    \ '?' : ['GFiles'                       , 'Search git files']        ,
+    \ '?' : ['Rg'                           , 'Search in files']         ,
     \ 'h' : ['<C-W><C-H>'                   , 'Window left']             ,
     \ 'j' : ['<C-W><C-J>'                   , 'Window down']             ,
     \ 'k' : ['<C-W><C-K>'                   , 'Window up']               ,
@@ -562,7 +555,7 @@ let g:which_key_map = {
     \ 'gt': ['<Plug>(coc-type-definition)'  , 'Go to type definition']   ,
     \ 'gi': ['<Plug>(coc-implementation)'   , 'Go to implementation']    ,
     \ 'gr': ['<Plug>(coc-references)'       , 'Go to references']        ,
-    \ 'gy': ['Goyo'                         , 'Distraction-free mode']   ,
+    \ 'y': ['Goyo'                         , 'Distraction-free mode']   ,
     \ }
 
 " WhichKey ale
@@ -615,7 +608,9 @@ let g:which_key_map.f = {
     \ 'b' : ['Buffers'    , 'Search buffers']          ,
     \ 'l' : ['BLines'     , 'Search lines']            ,
     \ 'h' : ['History'    , 'Search history']          ,
-    \ 'm' : ['Maps'       , 'Search maps']             ,
+    \ 'm' : ['Maps'       , 'Search mappings']         ,
+    \ 'c' : ['Commits'    , 'Search commits']          ,
+    \ 'r' : ['Rg'         , 'Search in files']         ,
     \ }
 
 " WhichKey git
