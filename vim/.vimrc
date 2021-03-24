@@ -391,12 +391,6 @@ vnoremap S "_d"0P"
 let g:NERDSpaceDelims = 1
 let g:NERDCompactSexyComs = 1
 
-" vim-sneak
-map f <Plug>Sneak_f
-map F <Plug>Sneak_F
-map t <Plug>Sneak_t
-map T <Plug>Sneak_T
-
 " ALE
 let g:ale_disable_lsp = 1
 let g:ale_fix_on_save = 0
