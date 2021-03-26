@@ -291,6 +291,9 @@ map <leader>sp [s
 map <leader>sa zg
 map <leader>s? z=
 
+" Spellfile language and location
+set spelllang=en
+set spellfile=$HOME/dotfiles/vim/.vim/spell/en.utf-8.add
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Helper Functions

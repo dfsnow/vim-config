@@ -61,6 +61,7 @@ Tmux prefix is `Ctrl + a`
  * `<` unindent block (in visual mode)
  * `:'<,'>s/old/new/g` replace within visual selection
  * `:g/regex/ex` run the given command on the matching regex
+ * `~` toggle case under cursor/in selection
 
 ### Macros
 
