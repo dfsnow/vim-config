@@ -133,9 +133,9 @@ unset UNAME
 
 # add fd support to fzf
 if echo "$DISTRO" | grep -q "debian"; then
-    export FZF_DEFAULT_COMMAND="fdfind --type f --follow --exclude .git . $HOME"
+    export FZF_DEFAULT_COMMAND="fdfind --type f --follow --hidden --exclude .git . $HOME"
 else
-    export FZF_DEFAULT_COMMAND="fd --type f --follow --exclude .git . $HOME"
+    export FZF_DEFAULT_COMMAND="fd --type f --hidden --follow --exclude .git . $HOME"
 fi
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-export FZF_ALT_C_COMMAND="fd --type d --follow . $HOME"
+export FZF_ALT_C_COMMAND="fd --type d --follow --hidden . $HOME"
