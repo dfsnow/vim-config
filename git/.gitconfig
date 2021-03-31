@@ -1,9 +1,13 @@
 [user]
 	email = snow.dfs@gmail.com
 	name = Dan Snow
+	signingkey = 0C35C90E7C0AB948
 
 [core]
 	autocrlf = false
+
+[commit]
+	gpgsign = true
 
 [alias]
 	a = add
