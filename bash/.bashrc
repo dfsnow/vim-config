@@ -139,3 +139,6 @@ else
 fi
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_ALT_C_COMMAND="fd --type d --follow --hidden . $HOME"
+
+# GPG integration
+export GPG_TTY=$(tty)
