@@ -1,4 +1,3 @@
-
 call plug#begin('~/.vim/vim-plug')
 
 " UI and colors
@@ -11,11 +10,11 @@ Plug 'junegunn/goyo.vim'
 
 " Git integration
 Plug 'tpope/vim-fugitive'
-Plug 'airblade/vim-gitgutter'
+Plug 'mhinz/vim-signify'
 
 " Formatting
 Plug 'tpope/vim-sleuth'
-Plug 'scrooloose/nerdcommenter'
+Plug 'tpope/vim-commentary'
 
 " Terminal integration
 Plug 'wincent/terminus'
@@ -25,9 +24,10 @@ Plug 'tpope/vim-surround'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 
-" Linting and completion
+" Linting, LSP and autocompletion
 Plug 'dense-analysis/ale'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'neovim/nvim-lspconfig'
+Plug 'kabouzeid/nvim-lspinstall'
 
 call plug#end()
 
@@ -46,6 +46,7 @@ call plug#end()
 "    -> Spell Checkings
 "    -> Helper Functions
 "    -> Miscellaneous
+"    -> Linting, LSP and Autocompletion
 "    -> Plugins
 "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -85,12 +86,6 @@ command Q :q!
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Set 7 lines to the cursor - when moving vertically using j/k
 set so=7
-
-" Avoid garbled characters in Chinese language windows OS
-let $LANG='en'
-set langmenu=en
-source $VIMRUNTIME/delmenu.vim
-source $VIMRUNTIME/menu.vim
 
 " Turn on the WiLd menu
 set wildmenu
@@ -146,11 +141,6 @@ set novisualbell
 set t_vb=
 set tm=500
 
-" Properly disable sound on errors on MacVim
-if has("gui_macvim")
-    autocmd GUIEnter * set vb t_vb=
-endif
-
 " Show the line number
 set number
 
@@ -170,11 +160,7 @@ syntax enable
 " Set the default font
 set guifont=DejaVu_Sans_Mono:h14
 
-" Enable 256 colors palette in Gnome Terminal
-if $COLORTERM == 'gnome-terminal'
-    set t_Co=256
-endif
-
+" Set background color
 set background=dark
 
 " Set extra options when running in GUI mode
@@ -195,7 +181,7 @@ set ffs=unix,dos,mac
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Files, Backups and Undo
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Turn backup off, since most stuff is in SVN, git et.c anyway...
+" Turn backup off, since most stuff is in SVN, git, etc anyway...
 set nobackup
 set nowb
 set noswapfile
@@ -204,13 +190,10 @@ set noswapfile
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Text, Tab and Indent Related
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" linebreak on 500 characters
-set lbr
-set tw=500
-
-set ai "Auto indent
-set si "Smart indent
-set wrap "Wrap lines
+" Enable smart auto indent and line wrapping
+set ai
+set si
+set wrap
 
 " Keep text selected on indent
 vnoremap < <gv
@@ -255,7 +238,7 @@ try
 catch
 endtry
 
-" Return to last edit position when opening files (You want this!)
+" Return to last edit position when opening files
 au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 
 
@@ -294,6 +277,7 @@ map <leader>s? z=
 " Spellfile language and location
 set spelllang=en
 set spellfile=$HOME/dotfiles/vim/.vim/spell/en.utf-8.add
+
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Helper Functions
@@ -367,9 +351,7 @@ map <leader>r :e ~/dotfiles/README.md<CR>
 map <leader>v :setlocal paste!<cr>
 
 " Better line joins
-if v:version > 703 || v:version == 703 && has('patch541')
-  set formatoptions+=j
-endif
+set formatoptions+=j
 
 " Fix R indentation 
 let r_indent_align_args = 0
@@ -388,13 +370,9 @@ vnoremap S "_d"0P"
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Plugin Settings
+" => Linting, LSP and Autocompletion
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" NERDcommenter
-let g:NERDSpaceDelims = 1
-let g:NERDCompactSexyComs = 1
-
-" ALE
+" Linting config via ALE
 let g:ale_disable_lsp = 1
 let g:ale_fix_on_save = 0
 let g:ale_linters_explicit = 1
@@ -422,59 +400,46 @@ nnoremap <leader>ai :ALEInfo<CR>
 nnoremap <leader>an :ALENextWrap<CR>
 nnoremap <leader>ap :ALEPreviousWrap<CR>
 
-" CoC.nvim
-let g:coc_global_extensions = [
-    \ 'coc-json'    ,
-    \ 'coc-html'    ,
-    \ 'coc-css'     ,
-    \ 'coc-yaml'    ,
-    \ 'coc-toml'    ,
-    \ 'coc-sh'      ,
-    \ 'coc-pyright'
-    \ ]
+" Config for native neovim LSP and autocomplete 
+lua << EOF
+require'lspinstall'.setup()
 
-function! s:check_back_space() abort
-let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~ '\s'
-endfunction
+-- Map keys after lang server attaches to buffer
+local on_attach = function(client, bufnr)
+  local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
+  local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
 
-inoremap <silent><expr> <TAB>
-  \ pumvisible() ? "\<C-n>" :
-  \ <SID>check_back_space() ? "\<TAB>" :
-  \ coc#refresh()
+  -- Mappings.
+  local opts = { noremap=true, silent=true }
 
-if has("patch-8.1.1564")
-  set signcolumn=number
-else
-  set signcolumn=yes
-endif
+end
 
-inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
-  \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+-- List installed servers, manually add R server
+local servers = require'lspinstall'.installed_servers()
+table.insert(servers, "r_language_server")
 
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gt <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
+-- Loop to setup installed servers and map keybindings
+for _, server in pairs(servers) do
+  require'lspconfig'[server].setup{}
+end
+EOF
 
-" GitGutter
-let g:gitgutter_map_keys = 0
-nnoremap <c-N> :GitGutterNextHunk<CR>
-nnoremap <c-P> :GitGutterPrevHunk<CR>
-nnoremap <c-U> :GitGutterUndoHunk<CR>
-nmap <leader>gg :GitGutterToggle<CR>
-nmap <leader>gn :GitGutterNextHunk<CR>
-nmap <leader>gp :GitGutterPrevHunk<CR>
-nmap <leader>ga :GitGutterStageHunk<CR>
-nmap <leader>gv :GitGutterPreviewHunk<CR>
-nmap <leader>gu :GitGutterUndoHunk<CR>
-nmap <Leader>gf :GFiles<CR>
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Plugin Settings
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Signify
+set updatetime=100
+nmap <leader>gg :SignifyToggle<CR>
+nmap <leader>gu :SignifyHunkUndo<CR>
+nmap <leader>gd :SignifyHunkDiff<CR>
+nmap <leader>gn <plug>(signify-next-hunk)
+nmap <leader>gp <plug>(signify-prev-hunk)
 
 " Git Fugitive
-nnoremap <Leader>gs :Gstatus<CR>
-nnoremap <Leader>gd :Gdiff<CR>
-nnoremap <Leader>gb :Gblame<CR>
-nnoremap <Leader>gl :exe ':!cd ' . expand('%:p:h') . '; git l'<CR>
+nmap <leader>gs :Git<CR>
+nmap <leader>gb :Git blame<CR>
+nmap <leader>gc :Git commit<CR>
 
 " Goyo
 nmap <leader>y :Goyo<CR>
@@ -492,24 +457,24 @@ let g:lightline = {
     \ }
 
 let g:lightline.tabline = {
-    \ 'left'                : [['buffers']]            ,
-    \ 'right'               : [['close']]              ,
+    \ 'left'                : [['buffers']]                   ,
+    \ 'right'               : [['close']]                     ,
     \ }
 
 let g:lightline.component_expand = {
-    \ 'buffers'             : 'lightline#bufferline#buffers' ,
-    \ 'linter_checking'     : 'lightline#ale#checking' ,
-    \ 'linter_warnings'     : 'lightline#ale#warnings' ,
-    \ 'linter_errors'       : 'lightline#ale#errors'   ,
-    \ 'linter_ok'           : 'lightline#ale#ok'       ,
+    \ 'buffers'             : 'lightline#bufferline#buffers'  ,
+    \ 'linter_checking'     : 'lightline#ale#checking'        ,
+    \ 'linter_warnings'     : 'lightline#ale#warnings'        ,
+    \ 'linter_errors'       : 'lightline#ale#errors'          ,
+    \ 'linter_ok'           : 'lightline#ale#ok'              ,
     \ }
 
 let g:lightline.component_type = {
-    \ 'buffers'             : 'tabsel'                 ,
-    \ 'linter_checking'     : 'left'                   ,
-    \ 'linter_warnings'     : 'warning'                ,
-    \ 'linter_errors'       : 'error'                  ,
-    \ 'linter_ok'           : 'left'                   ,
+    \ 'buffers'             : 'tabsel'                        ,
+    \ 'linter_checking'     : 'left'                          ,
+    \ 'linter_warnings'     : 'warning'                       ,
+    \ 'linter_errors'       : 'error'                         ,
+    \ 'linter_ok'           : 'left'                          ,
     \ }
 
 let g:lightline.active = {
@@ -524,11 +489,11 @@ let g:lightline.active = {
     \ }
 
 " FZF
-nmap <Leader>ff :Files<CR>
-nmap <Leader>fg :GFiles<CR>
-nmap <Leader>fb :Buffers<CR>
-nmap <Leader>fh :History<CR>
-nmap <Leader>fl :BLines<CR>
+nmap <leader>ff :Files<CR>
+nmap <leader>fg :GFiles<CR>
+nmap <leader>fb :Buffers<CR>
+nmap <leader>fh :History<CR>
+nmap <leader>fl :BLines<CR>
 nmap <leader>fm :Maps<CR>
 nmap <leader>fc :Commits<CR>
 nmap <leader>fr :Rg<CR>
@@ -540,101 +505,76 @@ call which_key#register(',', "g:which_key_map")
 
 " WhichKey defaults
 let g:which_key_map = {
-    \ 'v' : [':setlocal paste!'             , 'Paste mode']              ,
-    \ 'r' : [':e ~/dotfiles/README.md'      , 'Open README']             ,
-    \ '?' : ['Rg'                           , 'Search in files']         ,
-    \ 'h' : ['<C-W><C-H>'                   , 'Window left']             ,
-    \ 'j' : ['<C-W><C-J>'                   , 'Window down']             ,
-    \ 'k' : ['<C-W><C-K>'                   , 'Window up']               ,
-    \ 'l' : ['<C-W><C-L>'                   , 'Window right']            ,
-    \ 'Q' : ['q!'                           , 'which_key_ignore']        ,
-    \ 'w' : ['w!'                           , 'which_key_ignore']        ,
-    \ 'q' : ['q'                            , 'which_key_ignore']        ,
-    \ 'll': ['bnext'                        , 'Next buffer']             ,
-    \ 'hh': ['bprevious'                    , 'Previous buffer']         ,
-    \ 'gd': ['<Plug>(coc-definition)'       , 'Go to definition']        ,
-    \ 'gt': ['<Plug>(coc-type-definition)'  , 'Go to type definition']   ,
-    \ 'gi': ['<Plug>(coc-implementation)'   , 'Go to implementation']    ,
-    \ 'gr': ['<Plug>(coc-references)'       , 'Go to references']        ,
-    \ 'y': ['Goyo'                         , 'Distraction-free mode']   ,
+    \ 'v' : [':setlocal paste!'                , 'Paste mode']                ,
+    \ 'r' : [':e ~/dotfiles/README.md'         , 'Open README']               ,
+    \ '?' : ['Rg'                              , 'Search in files']           ,
+    \ 'h' : ['<C-W><C-H>'                      , 'which_key_ignore']          ,
+    \ 'j' : ['<C-W><C-J>'                      , 'which_key_ignore']          ,
+    \ 'k' : ['<C-W><C-K>'                      , 'which_key_ignore']          ,
+    \ 'l' : ['<C-W><C-L>'                      , 'which_key_ignore']          ,
+    \ 'Q' : ['q!'                              , 'which_key_ignore']          ,
+    \ 'w' : ['w!'                              , 'which_key_ignore']          ,
+    \ 'q' : ['q'                               , 'which_key_ignore']          ,
+    \ 'll': ['bnext'                           , 'Next buffer']               ,
+    \ 'hh': ['bprevious'                       , 'Previous buffer']           ,
+    \ 'y' : ['Goyo'                            , 'Distraction-free mode']     ,
     \ }
 
 " WhichKey ale
 let g:which_key_map.a = {
     \ 'name' : '+ale' ,
-    \ 's' : ['ALEFixSuggest'                   , 'Suggest fixers']         ,
-    \ 'i' : ['ALEInfo'                         , 'View runtime info']      ,
-    \ 't' : ['ALEToggle'                       , 'Toggle linting']         ,
-    \ 'f' : ['ALEFix'                          , 'Run fixers']             ,
-    \ 'n' : ['ALENextWrap'                     , 'Next ALE error']         ,
-    \ 'p' : ['ALEPreviousWrap'                 , 'Previous ALE error']     ,
+    \ 's' : ['ALEFixSuggest'                   , 'Suggest fixers']            ,
+    \ 'i' : ['ALEInfo'                         , 'View runtime info']         ,
+    \ 't' : ['ALEToggle'                       , 'Toggle linting']            ,
+    \ 'f' : ['ALEFix'                          , 'Run fixers']                ,
+    \ 'n' : ['ALENextWrap'                     , 'Next ALE error']            ,
+    \ 'p' : ['ALEPreviousWrap'                 , 'Previous ALE error']        ,
     \ }
 
 " WhichKey buffer
 let g:which_key_map.b = {
     \ 'name' : '+buffer' ,
-    \ 'b' : ['new'        , 'New buffer (horizontal)'] ,
-    \ 'v' : ['vnew'       , 'New buffer (vertical)']   ,
-    \ 'n' : ['enew'       , 'New buffer (no split)']   ,
-    \ 'd' : ['Bclose'     , 'Close buffer']            ,
-    \ 'c' : ['Bclose'     , 'Close buffer']            ,
-    \ 'l' : ['bnext'      , 'Next buffer']             ,
-    \ 'h' : ['bprevious'  , 'Previous buffer']         ,
-    \ 'a' : ['bufdo bd'   , 'Close all buffers']       ,
-    \ }
-
-" WhichKey nerdcommenter
-let g:which_key_map.c = {
-    \ 'name' : '+comment' ,
-    \ ' ' : ['<plug>NERDCommenterToggle'       , 'Toggle comment']         ,
-    \ '$' : ['<plug>NERDCommenterToEOL'        , 'Comment to EOL']         ,
-    \ 'c' : ['<plug>NERDCommenterComment'      , 'Comment selection']      ,
-    \ 'u' : ['<plug>NERDCommenterUncomment'    , 'Uncomment selection']    ,
-    \ 'm' : ['<plug>NERDCommenterMinimal'      , 'Minimal comment']        ,
-    \ 's' : ['<plug>NERDCommenterSexy'         , 'Sexy comment']           ,
-    \ 'l' : ['<plug>NERDCommenterAlignLeft'    , 'Left side comment']      ,
-    \ 'n' : ['<plug>NERDCommenterNested'       , 'Nested comment']         ,
-    \ 'i' : ['<plug>NERDCommenterInvert'       , 'Invert comment']         ,
-    \ 'A' : ['<plug>NERDCommenterAppend'       , 'which_key_ignore']       ,
-    \ 'y' : ['<plug>NERDCommenterYank'         , 'which_key_ignore']       ,
-    \ 'a' : ['<plug>NERDCommenterAltDelims'    , 'which_key_ignore']       ,
-    \ 'b' : ['<plug>NERDCommenterAlignBoth'    , 'which_key_ignore']       ,
+    \ 'b' : ['new'                             , 'New buffer (horizontal)']   ,
+    \ 'v' : ['vnew'                            , 'New buffer (vertical)']     ,
+    \ 'n' : ['enew'                            , 'New buffer (no split)']     ,
+    \ 'd' : ['Bclose'                          , 'Close buffer']              ,
+    \ 'c' : ['Bclose'                          , 'Close buffer']              ,
+    \ 'l' : ['bnext'                           , 'Next buffer']               ,
+    \ 'h' : ['bprevious'                       , 'Previous buffer']           ,
+    \ 'a' : ['bufdo bd'                        , 'Close all buffers']         ,
     \ }
 
 " WhichKey fzf
 let g:which_key_map.f = {
     \ 'name' : '+fzf' ,
-    \ 'g' : ['GFiles'     , 'Search git files']        ,
-    \ 'f' : ['Files'      , 'Search all files']        ,
-    \ 'b' : ['Buffers'    , 'Search buffers']          ,
-    \ 'l' : ['BLines'     , 'Search lines']            ,
-    \ 'h' : ['History'    , 'Search history']          ,
-    \ 'm' : ['Maps'       , 'Search mappings']         ,
-    \ 'c' : ['Commits'    , 'Search commits']          ,
-    \ 'r' : ['Rg'         , 'Search in files']         ,
+    \ 'g' : ['GFiles'                          , 'Search git files']          ,
+    \ 'f' : ['Files'                           , 'Search all files']          ,
+    \ 'b' : ['Buffers'                         , 'Search buffers']            ,
+    \ 'l' : ['BLines'                          , 'Search lines']              ,
+    \ 'h' : ['History'                         , 'Search history']            ,
+    \ 'm' : ['Maps'                            , 'Search mappings']           ,
+    \ 'c' : ['Commits'                         , 'Search commits']            ,
+    \ 'r' : ['Rg'                              , 'Search in files']           ,
     \ }
 
 " WhichKey git
 let g:which_key_map.g = {
     \ 'name' : '+git' ,
-    \ 'l' : [":exe ':!cd ' . expand('%:p:h') . '; git l'", 'View logs'] ,
-    \ 'g' : ['GitGutterToggle'      , 'Toggle GitGutter']                  ,
-    \ 'b' : ['Gblame'               , 'View blame']                        ,
-    \ 'a' : ['GitGutterStageHunk'   , 'Stage hunk']                        ,
-    \ 'd' : ['Gdiff'                , 'View diff']                         ,
-    \ 's' : ['Gstatus'              , 'View status']                       ,
-    \ 'v' : ['GitGutterPreviewHunk' , 'Preview hunk']                      ,
-    \ 'u' : ['GitGutterUndoHunk'    , 'Undo hunk']                         ,
-    \ 'n' : ['GitGutterNextHunk'    , 'Next hunk']                         ,
-    \ 'p' : ['GitGutterPrevHunk'    , 'Previous hunk']                     ,
+    \ 's' : [':Git'                            , 'Open git']                  ,
+    \ 'b' : [':Git blame'                      , 'View blame']                ,
+    \ 'c' : [':Git commit'                     , 'Create commit']             ,
+    \ 'd' : [':SignifyHunkDiff'                , 'View diff']                 ,
+    \ 'n' : ['<plug>(signify-next-hunk)'       , 'Next hunk']                 ,
+    \ 'p' : ['<plug>(signify-prev-hunk)'       , 'Previous hunk']             ,
+    \ 'u' : [':SignifyHunkUndo'                , 'Undo hunk']                 ,
     \ }
 
 " WhichKey spellcheck
 let g:which_key_map.s = {
     \ 'name' : '+spell' ,
-    \ 's' : [':setlocal spell!' , 'Toggle spell check'],
-    \ 'n' : [']s'         , 'Next misspelling']        ,
-    \ 'p' : ['[s'         , 'Previous misspelling']    ,
-    \ 'a' : ['zg'         , 'Add to dictionary']       ,
-    \ '?' : ['z='         , 'Search in dictionary']    ,
+    \ 's' : [':setlocal spell!'                , 'Toggle spell check']        ,
+    \ 'n' : [']s'                              , 'Next misspelling']          ,
+    \ 'p' : ['[s'                              , 'Previous misspelling']      ,
+    \ 'a' : ['zg'                              , 'Add to dictionary']         ,
+    \ '?' : ['z='                              , 'Search in dictionary']      ,
     \ }
