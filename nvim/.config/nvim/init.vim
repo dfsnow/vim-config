@@ -70,6 +70,11 @@ nnoremap <leader>ai :ALEInfo<CR>
 nnoremap <leader>an :ALENextWrap<CR>
 nnoremap <leader>ap :ALEPreviousWrap<CR>
 
+" nvim-compe settings
+set shortmess+=c
+set completeopt=menuone,noselect
+inoremap <silent><expr> <CR> compe#confirm('<CR>')
+
 " Config for native neovim LSP and autocomplete 
 lua << EOF
 require'lspinstall'.setup()
@@ -89,17 +94,18 @@ local on_attach = function(client, bufnr)
 
 end
 
+-- Enable snippets via vim-vsnip
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities.textDocument.completion.completionItem.snippetSupport = true
+
 -- List installed servers, manually add R server
 local servers = require'lspinstall'.installed_servers()
 table.insert(servers, "r_language_server")
 
 -- Loop to setup installed servers and map keybindings
 for _, server in pairs(servers) do
-  nvim_lsp[server].setup { on_attach = on_attach }
+  nvim_lsp[server].setup { on_attach = on_attach, capabilities = capabilities }
 end
-
--- Compe (autocomplete) setup
-vim.o.completeopt="menuone,noinsert"
 
 require'compe'.setup {
   enabled = true;
@@ -114,10 +120,14 @@ require'compe'.setup {
   max_kind_width = 100;
   max_menu_width = 100;
   documentation = true;
-
   source = {
     path = true;
+    buffer = true;
+    tags = true;
+    spell = true;
     nvim_lsp = true;
+    nvim_lua = true;
+    vsnip = true;
   };
 }
 
