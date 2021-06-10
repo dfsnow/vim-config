@@ -3,7 +3,7 @@ alias c='clear'
 alias ld='du -h -d 1'
 alias o='open .'
 
-# proper color handling for coreutils
+# Proper color handling for coreutils
 if [[ "$OSTYPE" == "linux-gnu" ]]; then
     alias l='ls -hG --color=auto'
     alias ls='ls -hG --color=auto'
@@ -40,7 +40,5 @@ alias .....='cd ../../../..'
 # Fzf aliases
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
-# Vim aliases to neovim
-alias v='nvim'
-alias vi='nvim'
-alias vim='nvim'
+# Neovim aliases 
+alias nv='nvim'

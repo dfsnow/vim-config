@@ -1,35 +1,35 @@
 #!/bin/bash
 
-# set localization options
+# Set localization options
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 
-# if not running interactively, don't do anything
+# If not running interactively, don't do anything
 case $- in
     *i*) ;;
       *) return;;
 esac
 
-# don't put duplicate lines or lines starting with space in the history.
+# Don't put duplicate lines or lines starting with space in the history.
 HISTCONTROL=ignoreboth
 
-# append to the history file, don't overwrite it
+# Append to the history file, don't overwrite it
 shopt -s histappend
 
-# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
+# For setting history length see HISTSIZE and HISTFILESIZE in bash(1)
 HISTSIZE=10000
 HISTFILESIZE=20000
 
-# check the window size after each command and, if necessary,
+# Check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
 shopt -s checkwinsize
 
-# set variable identifying the chroot you work in (used in the prompt below)
+# Set variable identifying the chroot you work in (used in the prompt below)
 if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
     debian_chroot=$(cat /etc/debian_chroot)
 fi
 
-# set a fancy prompt (non-color, unless we know we "want" color)
+# Set a fancy prompt (non-color, unless we know we "want" color)
 case "$TERM" in
     xterm-color|*-256color) color_prompt=yes;;
 esac
@@ -53,7 +53,7 @@ else
 fi
 unset color_prompt force_color_prompt
 
-# if this is an xterm set the title to user@host:dir
+# If this is an xterm set the title to user@host:dir
 case "$TERM" in
 xterm*|rxvt*)
     PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
@@ -62,7 +62,7 @@ xterm*|rxvt*)
     ;;
 esac
 
-# enable color support of ls and also add handy aliases
+# Enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
     alias ls='ls --color=auto'
@@ -73,7 +73,7 @@ if [ -x /usr/bin/dircolors ]; then
     alias egrep='egrep --color=auto'
 fi
 
-# enable programmable completion features (linux)
+# Enable programmable completion features (linux)
 if [[ "$OSTYPE" == "linux-gnu" ]]; then
     if ! shopt -oq posix; then
 	if [ -f /usr/share/bash-completion/bash_completion ]; then
@@ -83,55 +83,56 @@ if [[ "$OSTYPE" == "linux-gnu" ]]; then
 	fi
     fi
 
-# enable programmable completion features (mac)
+# Enable programmable completion features (mac)
 elif [[ "$OSTYPE" == "darwin"* ]]; then
     if [ -f $(brew --prefix)/etc/profile.d/bash_completion.sh ]; then
 	. $(brew --prefix)/etc/profile.d/bash_completion.sh
     fi
 fi
 
-# git bash completion
+# Git bash completion
 if [ -f ~/.git-completion.bash ]; then
     . ~/.git-completion.bash
 fi
 
-# alias definitions
+# Alias definitions
 if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
 
-# set editor to vim and edit mode to vim
+# Set editor to vim and edit mode to vim
 export VISUAL=nvim
 export EDITOR="$VISUAL"
 
-# fix nvim colors inside tmux
+# Fix nvim colors inside tmux
 if [ -n "$TMUX" ]; then
     alias nvim="TERM=screen-256color nvim"
 fi
 
-# add fzf support
+# Add fzf support
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
-# determine OS platform
+# Determine OS platform
 UNAME=$(uname | tr "[:upper:]" "[:lower:]")
-# if Linux, try to determine specific distribution
+
+# If Linux, try to determine specific distribution
 if [ "$UNAME" == "linux" ]; then
 
-    # if available, use LSB to identify distribution
+    # If available, use LSB to identify distribution
     if [ -f /etc/lsb-release -o -d /etc/lsb-release.d ]; then
         export DISTRO=$(lsb_release -i | cut -d: -f2 | sed s/'^\t'//)
 
-    # otherwise, use release info file
+    # Otherwise, use release info file
     else
         export DISTRO=$(ls -d /etc/[A-Za-z]*[_-][rv]e[lr]* | grep -v "lsb" | cut -d'/' -f3 | cut -d'-' -f1 | cut -d'_' -f1)
     fi
 fi
 
-# for Debian systems add alias for fd, since fd is fdfind in apt
+# For Debian systems add alias for fd, since fd is fdfind in apt
 if echo "$DISTRO" | grep -q "debian"; then alias fd=fdfind; fi
 unset UNAME
 
-# add fd support to fzf
+# Add fd support to fzf
 if echo "$DISTRO" | grep -q "debian"; then
     export FZF_DEFAULT_COMMAND="fdfind --type f --follow --hidden --exclude .git . $HOME"
 else
