@@ -82,10 +82,10 @@ local on_attach = function(client, bufnr)
 
   -- Mappings.
   local opts = { noremap=true, silent=true }
-  buf_set_keymap('n', '<leader>ld', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
+  buf_set_keymap('n', '<leader>ld', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
   buf_set_keymap('n', '<leader>li', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-  buf_set_keymap('n', '<leader>lr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
   buf_set_keymap('n', '<leader>lf', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
+  buf_set_keymap('n', '<leader>lr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
 
 end
 
@@ -256,6 +256,10 @@ let g:which_key_map = {
     \ 'll': ['bnext'                           , 'Next buffer']               ,
     \ 'hh': ['bprevious'                       , 'Previous buffer']           ,
     \ 'y' : ['Goyo'                            , 'Distraction-free mode']     ,
+    \ 'ld' : ['<cmd>lua vim.lsp.buf.definition()<CR>'    , 'which_key_ignore'],
+    \ 'li' : ['<cmd>lua vim.lsp.buf.implementation()<CR>', 'which_key_ignore'],
+    \ 'lf' : ['<cmd>lua vim.lsp.buf.formatting()<CR>'    , 'which_key_ignore'],
+    \ 'lr' : ['<cmd>lua vim.lsp.buf.references()<CR>'    , 'which_key_ignore'],
     \ }
 
 " WhichKey ale
