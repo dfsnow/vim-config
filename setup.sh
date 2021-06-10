@@ -70,16 +70,14 @@ echo "Config files stowed"
 
 # Install packer and plugins if neovim is installed
 if [[ "$source_answer_neovim" =~ ^[Yy]$ ]]; then
-    if [ ! -d ~/.local/share/nvim/site/pack/packer ]; then
-      echo "Installing packer"
-      git clone https://github.com/wbthomason/packer.nvim \
-	~/.local/share/nvim/site/pack/packer/start/packer.nvim
-      echo
-      echo "packer installed!"
-      echo
+    if [ ! -d ~/.local/share/nvim/site/autoload/plug.vim ]; then
+      echo "Installing vim-plug"
+      curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
+        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+      echo "vim-plug installed!"
     fi
 
-    nvim +PackerInstall +PackerUpdate +qall
+    nvim +PlugInstall +PlugUpdate +qall
 fi
 
 # Reset inputrc and bashrc
